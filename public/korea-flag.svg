@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-labelledby="title">
+  <title id="title">대한민국 국기</title>
+  <rect width="900" height="600" fill="#fff"/>
+  <g transform="translate(450 300) rotate(-33.6900675)">
+    <path d="M0-120a120 120 0 0 1 0 240 60 60 0 0 1 0-120 60 60 0 0 0 0-120Z" fill="#cd2e3a"/>
+    <path d="M0 120a120 120 0 0 1 0-240 60 60 0 0 1 0 120 60 60 0 0 0 0 120Z" fill="#0047a0"/>
+  </g>
+  <g fill="#111">
+    <g transform="translate(230 150) rotate(-33.6900675)">
+      <rect x="-78" y="-44" width="156" height="22" rx="2"/>
+      <rect x="-78" y="-11" width="156" height="22" rx="2"/>
+      <rect x="-78" y="22" width="156" height="22" rx="2"/>
+    </g>
+    <g transform="translate(670 450) rotate(-33.6900675)">
+      <rect x="-78" y="-44" width="68" height="22" rx="2"/>
+      <rect x="10" y="-44" width="68" height="22" rx="2"/>
+      <rect x="-78" y="-11" width="156" height="22" rx="2"/>
+      <rect x="-78" y="22" width="68" height="22" rx="2"/>
+      <rect x="10" y="22" width="68" height="22" rx="2"/>
+    </g>
+    <g transform="translate(670 150) rotate(33.6900675)">
+      <rect x="-78" y="-44" width="68" height="22" rx="2"/>
+      <rect x="10" y="-44" width="68" height="22" rx="2"/>
+      <rect x="-78" y="-11" width="68" height="22" rx="2"/>
+      <rect x="10" y="-11" width="68" height="22" rx="2"/>
+      <rect x="-78" y="22" width="156" height="22" rx="2"/>
+    </g>
+    <g transform="translate(230 450) rotate(33.6900675)">
+      <rect x="-78" y="-44" width="156" height="22" rx="2"/>
+      <rect x="-78" y="-11" width="68" height="22" rx="2"/>
+      <rect x="10" y="-11" width="68" height="22" rx="2"/>
+      <rect x="-78" y="22" width="156" height="22" rx="2"/>
+    </g>
+  </g>
+</svg>
