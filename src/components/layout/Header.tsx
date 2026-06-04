@@ -27,12 +27,18 @@ export function Header({ currentPath }: HeaderProps) {
         <span>{siteConfig.logoSubtitle}</span>
       </a>
 
-      <span aria-label="United States program" className="flag-us" role="img" />
+      <div className="flag-stack" aria-label="Korea and United States program">
+        <span aria-label="United States" className="flag-us" role="img" />
+        <span aria-label="South Korea" className="flag-kr" role="img" />
+      </div>
 
       {isMenuOpen && (
         <nav className="mobile-menu" aria-label="Primary navigation">
           {siteConfig.navigation.map((item) => (
-            <a href={isHomePage ? item.href : `/${item.href}`} key={item.href}>
+            <a
+              href={item.href.startsWith('#') && !isHomePage ? `/${item.href}` : item.href}
+              key={item.href}
+            >
               {item.label}
             </a>
           ))}

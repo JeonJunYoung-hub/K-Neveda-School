@@ -1,22 +1,47 @@
 import { CalendarDays, ChevronRight, ClipboardPenLine, Sparkles } from 'lucide-react';
 import { HeroSection } from '../components/sections/HeroSection';
 import { ButtonLink } from '../components/ui/ButtonLink';
-import { campContent } from '../data/campContent';
+import { campContent, missionContent } from '../data/campContent';
 
 export function HomePage() {
   return (
     <>
       <HeroSection />
 
+      <section className="content-section values-section">
+        <div className="mission-band mission-band--home">
+          <h2>MISSION</h2>
+          <p>{missionContent.mission}</p>
+        </div>
+
+        <div className="vision-box vision-box--home">
+          <h2>VISION</h2>
+          <p>{missionContent.vision}</p>
+        </div>
+
+        <div className="core-values">
+          <span>핵심가치</span>
+          <div className="core-value-row">
+            {missionContent.values.map((value) => (
+              <article className="core-value" key={value.title}>
+                <strong>{value.title}</strong>
+                <small>{value.english}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="content-section content-section--lifted" id="program">
-        <article className="period-card">
+        <a className="period-card" href="/program/schedule">
           <CalendarDays aria-hidden="true" />
           <div>
             <span>{campContent.period.label}</span>
             <strong>{campContent.period.date}</strong>
             <p>{campContent.period.note}</p>
           </div>
-        </article>
+          <ChevronRight aria-hidden="true" className="period-card__arrow" />
+        </a>
 
         <div className="fact-grid" aria-label="캠프 핵심 정보">
           {campContent.quickFacts.map((fact) => (
@@ -67,6 +92,10 @@ export function HomePage() {
             </article>
           ))}
         </div>
+        <ButtonLink className="section-detail-link" href="/program/schedule" variant="secondary">
+          일정 자세히 보기
+          <ChevronRight aria-hidden="true" />
+        </ButtonLink>
       </section>
 
       <section className="content-section" id="tuition">

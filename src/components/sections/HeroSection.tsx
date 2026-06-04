@@ -1,10 +1,12 @@
+import type { TouchEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { programModules } from '../../data/campContent';
 import { ButtonLink } from '../ui/ButtonLink';
 
 export function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
   const activeSlide = programModules[activeIndex];
 
   useEffect(() => {
@@ -23,19 +25,39 @@ export function HeroSection() {
     setActiveIndex((index) => (index + 1) % programModules.length);
   };
 
+  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    if (touchStartX.current === null) {
+      return;
+    }
+
+    const distance = touchStartX.current - (event.changedTouches[0]?.clientX ?? touchStartX.current);
+
+    if (Math.abs(distance) > 45) {
+      if (distance > 0) {
+        goToNext();
+      } else {
+        goToPrevious();
+      }
+    }
+
+    touchStartX.current = null;
+  };
+
   return (
-    <section className="hero-section">
+    <section className="hero-section" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
       <img alt="" className="hero-image" src={activeSlide.imageUrl} />
       <div className="hero-overlay" />
 
       <div className="hero-copy">
         <p>{activeSlide.eyebrow}</p>
-        <h1>
-          {activeSlide.title}
-        </h1>
+        <h1>{activeSlide.title}</h1>
         <p className="hero-description">{activeSlide.description}</p>
         <ButtonLink href={activeSlide.href} variant="secondary">
-          캠프 소개 보기
+          자세히 보기
           <ChevronRight aria-hidden="true" />
         </ButtonLink>
       </div>
