@@ -61,15 +61,13 @@ const highlightCards = [
     id: 'battlebots',
     title: 'BattleBots Destruct-A-Thon 현장 관람',
     description: '로봇 공학, 설계, 전략이 실제 경기에서 작동하는 장면을 관람합니다.',
-    imageUrl:
-      'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageUrl: 'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=900',
     href: '/program/schedule',
   },
   {
     id: 'mentoring',
     title: '1:1 수준 밀착 관리',
-    description:
-      '학생 10명 : 멘토 5명, 운영진 9명 동행으로 성인 대 학생 약 1:1 케어를 제공합니다.',
+    description: '학생 10명 : 멘토 5명, 운영진 9명 동행으로 성인 대 학생 약 1:1 케어를 제공합니다.',
     imageUrl:
       'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?cs=srgb&dl=pexels-max-fischer-5212345.jpg&fm=jpg',
     href: '/team',
@@ -87,7 +85,7 @@ export function HomePage() {
     <>
       <HeroSection />
 
-      <section className="content-section values-section">
+      <section className="content-section values-section" id="program">
         <div className="home-program-card">
           <p className="eyebrow">AI STEM Global Camp</p>
           <h2>미국 네바다에서 만나는 AI STEM 글로벌 캠프</h2>
@@ -95,6 +93,28 @@ export function HomePage() {
             7일 집중과정, 10명 소수정예, 멘토 비율 1:1 수준의 밀착 케어,
             DRI 수료증까지 연결되는 글로벌 STEM 몰입 프로그램입니다.
           </p>
+        </div>
+
+        <div className="home-program-info">
+          <a className="period-card" href="/program/schedule">
+            <CalendarDays aria-hidden="true" />
+            <div>
+              <span>{campContent.period.label}</span>
+              <strong>{campContent.period.date}</strong>
+              <p>{campContent.period.note}</p>
+            </div>
+            <ChevronRight aria-hidden="true" className="period-card__arrow" />
+          </a>
+
+          <div className="fact-grid" aria-label="캠프 핵심 정보">
+            {factItems.map((fact) => (
+              <article className="fact-card" key={fact.label}>
+                <span>{fact.label}</span>
+                <strong>{fact.value}</strong>
+                <p>{fact.note}</p>
+              </article>
+            ))}
+          </div>
         </div>
 
         <div className="home-value-section">
@@ -108,28 +128,6 @@ export function HomePage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="content-section content-section--lifted" id="program">
-        <a className="period-card" href="/program/schedule">
-          <CalendarDays aria-hidden="true" />
-          <div>
-            <span>{campContent.period.label}</span>
-            <strong>{campContent.period.date}</strong>
-            <p>{campContent.period.note}</p>
-          </div>
-          <ChevronRight aria-hidden="true" className="period-card__arrow" />
-        </a>
-
-        <div className="fact-grid" aria-label="캠프 핵심 정보">
-          {factItems.map((fact) => (
-            <article className="fact-card" key={fact.label}>
-              <span>{fact.label}</span>
-              <strong>{fact.value}</strong>
-              <p>{fact.note}</p>
-            </article>
-          ))}
         </div>
       </section>
 
