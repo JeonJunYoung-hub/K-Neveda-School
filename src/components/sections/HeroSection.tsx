@@ -4,25 +4,27 @@ import { useEffect, useRef, useState } from 'react';
 import { programModules } from '../../data/campContent';
 import { ButtonLink } from '../ui/ButtonLink';
 
+const heroSlides = programModules.slice(0, 4);
+
 export function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
-  const activeSlide = programModules[activeIndex];
+  const activeSlide = heroSlides[activeIndex];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActiveIndex((index) => (index + 1) % programModules.length);
+      setActiveIndex((index) => (index + 1) % heroSlides.length);
     }, 5200);
 
     return () => window.clearInterval(timer);
   }, []);
 
   const goToPrevious = () => {
-    setActiveIndex((index) => (index - 1 + programModules.length) % programModules.length);
+    setActiveIndex((index) => (index - 1 + heroSlides.length) % heroSlides.length);
   };
 
   const goToNext = () => {
-    setActiveIndex((index) => (index + 1) % programModules.length);
+    setActiveIndex((index) => (index + 1) % heroSlides.length);
   };
 
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
@@ -72,7 +74,7 @@ export function HeroSection() {
       </button>
 
       <div className="hero-dots" aria-label="배너 선택">
-        {programModules.map((slide, index) => (
+        {heroSlides.map((slide, index) => (
           <button
             aria-label={`${slide.title} 보기`}
             className={index === activeIndex ? 'is-active' : ''}
