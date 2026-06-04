@@ -1,86 +1,42 @@
-import type { TouchEvent } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { programModules } from '../../data/campContent';
+import { CalendarDays, ChevronRight } from 'lucide-react';
+import { campContent } from '../../data/campContent';
 import { ButtonLink } from '../ui/ButtonLink';
 
 export function HeroSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const touchStartX = useRef<number | null>(null);
-  const activeSlide = programModules[activeIndex];
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActiveIndex((index) => (index + 1) % programModules.length);
-    }, 5200);
-
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const goToPrevious = () => {
-    setActiveIndex((index) => (index - 1 + programModules.length) % programModules.length);
-  };
-
-  const goToNext = () => {
-    setActiveIndex((index) => (index + 1) % programModules.length);
-  };
-
-  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
-    touchStartX.current = event.touches[0]?.clientX ?? null;
-  };
-
-  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
-    if (touchStartX.current === null) {
-      return;
-    }
-
-    const distance = touchStartX.current - (event.changedTouches[0]?.clientX ?? touchStartX.current);
-
-    if (Math.abs(distance) > 45) {
-      if (distance > 0) {
-        goToNext();
-      } else {
-        goToPrevious();
-      }
-    }
-
-    touchStartX.current = null;
-  };
-
   return (
-    <section className="hero-section" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
-      <img alt="" className="hero-image" src={activeSlide.imageUrl} />
+    <section className="hero-section hero-section--static">
       <div className="hero-overlay" />
 
       <div className="hero-copy">
-        <p>{activeSlide.eyebrow}</p>
-        <h1>{activeSlide.title}</h1>
-        <p className="hero-description">{activeSlide.description}</p>
-        <ButtonLink href={activeSlide.href} variant="secondary">
-          자세히 보기
+        <p>미국 네바다에서 만나는</p>
+        <h1>
+          AI STEM
+          <span>글로벌 캠프</span>
+        </h1>
+        <p className="hero-description">
+          네바다 주립대학 UNR · UNLV · 네바다 주립연구소 DRI와 함께 진짜 과학자처럼
+          연구하고, 드론을 날리고, AI를 만듭니다.
+        </p>
+
+        <a className="hero-period-card" href="/program/schedule">
+          <CalendarDays aria-hidden="true" />
+          <div>
+            <span>{campContent.period.label}</span>
+            <strong>{campContent.period.date}</strong>
+            <small>{campContent.period.note}</small>
+          </div>
           <ChevronRight aria-hidden="true" />
-        </ButtonLink>
-      </div>
+        </a>
 
-      <button className="hero-arrow hero-arrow--left" onClick={goToPrevious} type="button">
-        <ChevronLeft aria-hidden="true" />
-        <span className="sr-only">이전 배너</span>
-      </button>
-      <button className="hero-arrow hero-arrow--right" onClick={goToNext} type="button">
-        <ChevronRight aria-hidden="true" />
-        <span className="sr-only">다음 배너</span>
-      </button>
-
-      <div className="hero-dots" aria-label="배너 선택">
-        {programModules.map((slide, index) => (
-          <button
-            aria-label={`${slide.title} 보기`}
-            className={index === activeIndex ? 'is-active' : ''}
-            key={slide.id}
-            onClick={() => setActiveIndex(index)}
-            type="button"
-          />
-        ))}
+        <div className="hero-actions">
+          <ButtonLink href="/apply" variant="primary">
+            지금 신청하기
+            <ChevronRight aria-hidden="true" />
+          </ButtonLink>
+          <ButtonLink href="/program/schedule" variant="secondary">
+            커리큘럼 보기
+          </ButtonLink>
+        </div>
       </div>
     </section>
   );
