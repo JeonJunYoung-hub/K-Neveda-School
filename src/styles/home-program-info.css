@@ -1,0 +1,11 @@
+.home-program-info {
+  margin-top: 16px;
+}
+
+.home-program-info .period-card {
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+}
+
+.home-program-info + .home-value-section {
+  margin-top: 26px;
+}
