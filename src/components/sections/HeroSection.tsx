@@ -4,7 +4,22 @@ import { useEffect, useRef, useState } from 'react';
 import { programModules } from '../../data/campContent';
 import { ButtonLink } from '../ui/ButtonLink';
 
-const heroSlides = programModules.slice(0, 4);
+const heroSlides = [
+  ...programModules.slice(0, 4),
+  {
+    ...programModules[4],
+    title: '교수진 3인 + 외부 전문가 특강',
+    description: '강민곤·손영권·박정원 교수와 실리콘밸리 AI, 항공우주 외부 전문가 특강을 만납니다.',
+  },
+  {
+    id: 'battlebots-banner',
+    eyebrow: 'DAY 7',
+    title: 'BattleBots Destruct-A-Thon 현장 관람',
+    description: '로봇 공학, 설계, 전략이 실제 경기에서 작동하는 장면을 현장에서 관람합니다.',
+    imageUrl: 'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=900',
+    href: '/program/schedule',
+  },
+];
 
 export function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
