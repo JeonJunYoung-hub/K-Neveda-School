@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'K-Nevada-School',
   logoTitle: 'K-Nevada Camp School',
-  logoSubtitle: '주립대학 UNR · UNLV, 주립연구소 DRI Collaboration',
+  logoSubtitle: '네바다 주립대학 UNR · UNLV · 네바다 주립연구소 DRI',
   primaryAction: {
     label: '캠프 신청하기',
     href: '/apply',
@@ -9,8 +9,12 @@ export const siteConfig = {
   navigation: [
     { label: '캠프소개', href: '/program/overview' },
     { label: '일정표', href: '/program/schedule' },
+    { label: '공지사항', href: '/notices' },
+    { label: '영상 및 갤러리', href: '/media' },
+    { label: '운영팀', href: '/team' },
     { label: '참가비', href: '/program/tuition' },
     { label: '상담문의', href: '#contact' },
+    { label: '캠프 신청', href: '/apply' },
   ],
   contact: {
     phoneHref: 'tel:+821000000000',
@@ -19,5 +23,5 @@ export const siteConfig = {
     kakaoDisplay: 'Kakao ID 준비중',
     applicationEmail: 'apply@k-nevada-camp.com',
   },
-  footerNote: 'DRI × UNLV / UNR 기반 캠프 안내 사이트 초안',
+  footerNote: '네바다 주립대학 UNR · UNLV · 네바다 주립연구소 DRI 기반 캠프 안내',
 } as const;
