@@ -17,6 +17,16 @@ export function SchedulePage() {
         <span>{campContent.period.note}</span>
       </div>
 
+      <div className="journey-calendar" aria-label="7박 9일 달력">
+        {journeyDays.map((item) => (
+          <article className="journey-calendar__day" key={item.day}>
+            <span>{item.day}</span>
+            <strong>{item.date}</strong>
+            <p>{item.title}</p>
+          </article>
+        ))}
+      </div>
+
       <div className="journey-list">
         {journeyDays.map((item, index) => (
           <details className="journey-day" key={item.day} open={index === 0}>
