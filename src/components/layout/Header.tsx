@@ -27,9 +27,8 @@ export function Header({ currentPath }: HeaderProps) {
         <span>{siteConfig.logoSubtitle}</span>
       </a>
 
-      <div className="flag-stack" aria-label="Korea and United States program">
-        <span aria-label="United States" className="flag-us" role="img" />
-        <span aria-label="South Korea" className="flag-kr" role="img" />
+      <div className="flag-stack" aria-label="대한민국 프로그램 안내">
+        <img alt="대한민국 국기" className="flag-kr-image" src="/korea-flag.svg" />
       </div>
 
       {isMenuOpen && (
@@ -42,7 +41,6 @@ export function Header({ currentPath }: HeaderProps) {
               {item.label}
             </a>
           ))}
-          <a href="/apply">캠프신청</a>
         </nav>
       )}
     </header>
