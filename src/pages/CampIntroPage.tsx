@@ -1,6 +1,6 @@
 import { ArrowLeft, ClipboardPenLine } from 'lucide-react';
 import { ButtonLink } from '../components/ui/ButtonLink';
-import { campContent, leadershipGroups, missionContent } from '../data/campContent';
+import { campContent } from '../data/campContent';
 
 export function CampIntroPage() {
   return (
@@ -20,42 +20,37 @@ export function CampIntroPage() {
         </p>
       </div>
 
-      <section className="intro-values">
-        <div className="mission-band">
-          <h2>MISSION</h2>
-          <p>{missionContent.mission}</p>
-        </div>
-
-        <div className="vision-box">
-          <h2>VISION</h2>
-          <p>{missionContent.vision}</p>
-        </div>
+      <section className="intro-focus-grid">
+        <article>
+          <span>01</span>
+          <h2>연구기관 현장 중심</h2>
+          <p>DRI STEM Lab에서 전기회로, Micro:bit, 사막 생태, AI 데이터 분석을 직접 경험합니다.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>소수정예 밀착 관리</h2>
+          <p>학생 10명 규모로 멘토와 운영진이 학습, 생활, 안전을 촘촘하게 관리합니다.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>진로 포트폴리오 연결</h2>
+          <p>DRI 공식 수료증, 캡스톤 발표, 귀국 후 피드백을 진학 자료로 이어갑니다.</p>
+        </article>
       </section>
 
-      <section className="leadership-section">
+      <section className="intro-program-summary">
         <div className="section-title">
-          <h2>주요 경영진</h2>
-          <p>대표 교수, 교수진, 운영진을 중심으로 현장 안전과 학습 품질을 함께 관리합니다.</p>
+          <h2>캠프 운영 방식</h2>
+          <p>
+            라스베가스 현지 연구소와 대학 캠퍼스, 필드 트립을 연결해 학생이 직접 질문하고
+            실험하고 발표하는 흐름으로 설계했습니다.
+          </p>
         </div>
-
-        {leadershipGroups.map((group) => (
-          <div className="leadership-group" key={group.title}>
-            <h3>{group.title}</h3>
-            <div className="leader-list">
-              {group.members.map((member) => (
-                <article className="leader-card" key={member.name}>
-                  <img alt="" src={member.imageUrl} />
-                  <div>
-                    <span>{member.role}</span>
-                    <h4>{member.name}</h4>
-                    <p>{member.bio}</p>
-                    <blockquote>{member.quote}</blockquote>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        ))}
+        <ul className="intro-check-list">
+          {campContent.inclusions.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
       </section>
 
       <ButtonLink className="apply-cta detail-apply-cta" href="/apply" variant="primary">
