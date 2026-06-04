@@ -1,10 +1,12 @@
 import { CalendarDays, ChevronRight } from 'lucide-react';
+import heroImage from '../../assets/hero-nevada-stem.png';
 import { campContent } from '../../data/campContent';
 import { ButtonLink } from '../ui/ButtonLink';
 
 export function HeroSection() {
   return (
-    <section className="hero-section hero-section--static">
+    <section className="hero-section hero-section--restored">
+      <img className="hero-image" src={heroImage} alt="" />
       <div className="hero-overlay" />
 
       <div className="hero-copy">
