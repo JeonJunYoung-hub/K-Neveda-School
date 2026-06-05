@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'K-Nevada-School',
-  logoTitle: 'K-Nevada Camp School',
-  logoSubtitle: '네바다 주립대학 UNR · UNLV · 네바다 주립연구소 DRI',
+  logoTitle: 'K-Nevada-School',
+  logoSubtitle: 'UNR & DRI Collaboration 1기',
   primaryAction: {
     label: '캠프 신청하기',
     href: '/apply',
@@ -13,7 +13,7 @@ export const siteConfig = {
     { label: '영상 및 갤러리', href: '/media' },
     { label: '운영팀', href: '/team' },
     { label: '참가비', href: '/program/tuition' },
-    { label: '상담문의', href: '#contact' },
+    { label: '상담문의', href: '/consult' },
     { label: '캠프 신청', href: '/apply' },
   ],
   contact: {
