@@ -10,31 +10,51 @@ export function CampIntroPage() {
         홈으로
       </a>
 
-      <div className="intro-hero">
-        <p className="eyebrow">K-Nevada Camp School</p>
-        <h1>캠프 소개</h1>
-        <p>
-          {campContent.title}는 DRI 미국 사막연구소와 UNLV/UNR 네트워크를 기반으로 학생들이
-          연구기관의 실험, 데이터 분석, AI 워크숍, 현장 견학을 압축적으로 경험하도록 설계한
-          7박 9일 집중 프로그램입니다.
-        </p>
+      <div className="partnership-hero">
+        <div>
+          <p className="eyebrow">Program Introduction</p>
+          <h1>
+            K-Nevada-School은
+            <br />
+            연구기관 현장과 학생의 진로를
+            <br />
+            함께 연결하는 캠프입니다.
+          </h1>
+          <p>
+            미국 네바다 DRI(Desert Research Institute, 사막연구소)에서 첨단 장비와 현직
+            과학자 멘토링을 기반으로 실전 연구를 경험하는 7박 9일 집중 프로그램입니다.
+          </p>
+          <p>
+            DRI STEM Lab 3일 집중, 후버댐과 그랜드캐년 종일 견학, Drone AI 워크숍,
+            BattleBots Destruct-A-Thon 현장 관람까지 하나의 진로 탐색 흐름으로 설계했습니다.
+          </p>
+        </div>
+        <aside aria-label="K-Nevada 핵심 가치">
+          <strong>K-Nevada Partnership</strong>
+          <div className="infinity-values">
+            <span>Inquiry</span>
+            <span>Integrity</span>
+            <span>Respect</span>
+          </div>
+          <p>학생의 질문, 연구자의 피드백, 글로벌 진로 로드맵을 하나로 묶습니다.</p>
+        </aside>
       </div>
 
       <section className="intro-focus-grid">
         <article>
           <span>01</span>
-          <h2>연구기관 현장 중심</h2>
-          <p>DRI STEM Lab에서 전기회로, Micro:bit, 사막 생태, AI 데이터 분석을 직접 경험합니다.</p>
+          <h2>현직 과학자 1:1 멘토링</h2>
+          <p>DRI 박사진과 UNLV 이공계 멘토가 학생 10명과 직접 함께하며 질문과 실험을 이끕니다.</p>
         </article>
         <article>
           <span>02</span>
-          <h2>소수정예 밀착 관리</h2>
-          <p>학생 10명 규모로 멘토와 운영진이 학습, 생활, 안전을 촘촘하게 관리합니다.</p>
+          <h2>DRI 공식 수료증</h2>
+          <p>미국 연구기관 공식 인증 수료증을 진학 포트폴리오 자료로 활용할 수 있습니다.</p>
         </article>
         <article>
           <span>03</span>
-          <h2>진로 포트폴리오 연결</h2>
-          <p>DRI 공식 수료증, 캡스톤 발표, 귀국 후 피드백을 진학 자료로 이어갑니다.</p>
+          <h2>1:1 진로 로드맵</h2>
+          <p>귀국 후 2주 내 개별 포트폴리오 피드백과 연 2회 진로 상담으로 성장을 이어갑니다.</p>
         </article>
       </section>
 
