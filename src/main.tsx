@@ -6,6 +6,7 @@ import './styles/codex-overrides.css';
 import './styles/home-program-info.css';
 import './styles/desktop-pc-layout.css';
 import './styles/detail-pages.css';
+import './styles/board-write-overrides.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
