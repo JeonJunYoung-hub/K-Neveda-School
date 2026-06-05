@@ -1,0 +1,279 @@
+.desktop-kakao-cta {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .site-header {
+    grid-template-areas:
+      "brand search kakao"
+      "nav nav nav" !important;
+    grid-template-columns: minmax(260px, 1fr) minmax(260px, 360px) minmax(150px, auto) !important;
+  }
+
+  .desktop-support,
+  .flag-stack,
+  .desktop-subnav {
+    display: none !important;
+  }
+
+  .desktop-kakao-cta {
+    align-items: center;
+    align-self: center;
+    background: var(--navy);
+    border: 1px solid var(--navy);
+    color: #ffffff;
+    display: inline-flex;
+    font-size: 1rem;
+    font-weight: 950;
+    gap: 8px;
+    grid-area: kakao;
+    justify-self: end;
+    min-height: 44px;
+    padding: 0 18px;
+  }
+
+  .desktop-kakao-cta svg {
+    height: 19px;
+    width: 19px;
+  }
+}
+
+.apply-page--plain {
+  background: #ffffff;
+  margin: 0 auto;
+  max-width: 1260px;
+  min-height: calc(100vh - 160px);
+  padding: 38px 30px 72px;
+}
+
+.apply-hero--center {
+  border-bottom: 2px solid #bfe9ff;
+  margin: 0 0 38px;
+  padding: 0 0 70px;
+  text-align: center;
+}
+
+.apply-hero--center .eyebrow {
+  color: #384961;
+  font-size: 1.08rem;
+  letter-spacing: 0.35em;
+  margin-bottom: 8px;
+}
+
+.apply-hero--center h1 {
+  color: var(--navy);
+  font-size: clamp(3.1rem, 6vw, 5rem);
+  font-weight: 1000;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.apply-hero--center p:last-child {
+  color: #263d61;
+  font-size: 1.08rem;
+  font-weight: 850;
+}
+
+.application-form--plain {
+  background: #ffffff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  padding: 0;
+}
+
+.application-form--plain label {
+  gap: 8px;
+}
+
+.application-form--plain label span {
+  color: var(--navy);
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.application-form--plain input,
+.application-form--plain textarea {
+  border: 1px solid #c7d4e6;
+  border-radius: 0;
+  min-height: 50px;
+}
+
+.application-form--plain textarea {
+  min-height: 120px;
+}
+
+.application-form--plain .submit-button {
+  background: var(--navy);
+  border-radius: 0;
+  font-size: 1.08rem;
+  min-height: 56px;
+}
+
+.application-vault--plain {
+  margin-top: 24px;
+}
+
+.team-page-simple .board-hero,
+.team-hero-simple {
+  padding-bottom: 74px;
+}
+
+.team-card-grid-simple {
+  display: grid;
+  gap: 20px;
+  margin-top: 36px;
+}
+
+.team-card-simple {
+  background: #ffffff;
+  border: 1px solid #dce7f8;
+  box-shadow: 0 18px 38px rgba(17, 24, 39, 0.07);
+  min-height: 220px;
+  padding: 32px 28px;
+}
+
+.team-card-simple span {
+  color: #0b86d1;
+  display: block;
+  font-weight: 950;
+  margin-bottom: 20px;
+}
+
+.team-card-simple h2 {
+  color: var(--navy);
+  font-size: 1.7rem;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+.team-card-simple p {
+  color: #263d61;
+  font-weight: 780;
+  line-height: 1.65;
+}
+
+.consult-card-row--two {
+  grid-template-columns: 1fr;
+}
+
+.board-toolbar {
+  align-items: stretch;
+  display: grid;
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.board-toolbar .board-search {
+  margin: 0;
+}
+
+.board-write-button {
+  align-items: center;
+  background: var(--navy);
+  border: 0;
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 950;
+  gap: 8px;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 22px;
+}
+
+.board-write-button svg {
+  height: 18px;
+  width: 18px;
+}
+
+.board-write-form {
+  background: #f7fbff;
+  border: 1px solid #cfeeff;
+  display: grid;
+  gap: 16px;
+  margin: -8px 0 28px;
+  padding: 22px;
+}
+
+.board-write-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.board-write-form span {
+  color: var(--navy);
+  font-weight: 950;
+}
+
+.board-write-form input,
+.board-write-form textarea {
+  background: #ffffff;
+  border: 1px solid #c7d4e6;
+  border-radius: 0;
+  color: var(--navy);
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.board-write-form textarea {
+  line-height: 1.55;
+  min-height: 116px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+.board-write-form button {
+  background: #0d8dcc;
+  border: 0;
+  color: #ffffff;
+  font-weight: 950;
+  min-height: 48px;
+}
+
+@media (min-width: 760px) {
+  .application-form--plain {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .application-form__wide,
+  .application-form--plain .submit-button,
+  .application-form--plain .form-success {
+    grid-column: 1 / -1;
+  }
+
+  .application-form--plain .submit-button {
+    justify-self: start;
+    width: min(100%, 558px);
+  }
+
+  .board-toolbar {
+    grid-template-columns: minmax(0, 1fr) 132px;
+  }
+
+  .board-write-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .board-write-form__wide,
+  .board-write-form button {
+    grid-column: 1 / -1;
+  }
+
+  .board-write-form button {
+    justify-self: start;
+    width: 180px;
+  }
+
+  .team-card-grid-simple {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .consult-card-row--two {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
