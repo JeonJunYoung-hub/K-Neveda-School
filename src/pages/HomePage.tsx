@@ -3,76 +3,22 @@ import { HeroSection } from '../components/sections/HeroSection';
 import { ButtonLink } from '../components/ui/ButtonLink';
 import { campContent } from '../data/campContent';
 
-const homeCoreValues = [
-  {
-    number: '①',
-    title: '현직 과학자 1:1 멘토링',
-    description:
-      'DRI 박사진과 UNLV 이공계 멘토 5명이 7박 9일 내내 학생 10명과 직접 함께합니다.',
-  },
-  {
-    number: '②',
-    title: 'DRI 공식 수료증',
-    description:
-      '미국 연구기관 공식 인증 수료증을 진학 포트폴리오 자료로 활용할 수 있습니다.',
-  },
-  {
-    number: '③',
-    title: '1:1 진로 로드맵',
-    description: '귀국 후 2주 내 개별 포트폴리오 피드백과 진로 상담 연 2회 제공.',
-  },
-] as const;
-
-const highlightCards = [
-  {
-    id: 'dri-lab',
-    title: 'DRI STEM Lab 3일 집중',
-    description:
-      '전기회로, Micro:bit, 사막 생태, 현미경, AI 데이터 분석까지 실제 연구실 흐름으로 경험합니다.',
-    imageUrl:
-      'https://images.pexels.com/photos/6208709/pexels-photo-6208709.jpeg?cs=srgb&dl=pexels-cottonbro-6208709.jpg&fm=jpg',
-    href: '/program/dri-stem-lab',
-  },
-  {
-    id: 'hoover-grand-canyon',
-    title: '후버댐 + 그랜드캐년 종일 견학',
-    description: '댐 공학·수력발전과 자연·지질 학습을 연결하는 DAY 5 현장 수업입니다.',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg/1280px-Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg',
-    href: '/program/hoover-grand-canyon',
-  },
-  {
-    id: 'drone-ai',
-    title: 'Advanced Drone & AI Workshop',
-    description: 'UAV 자율비행과 AI 알고리즘을 직접 다루는 DAY 6 고급 워크숍입니다.',
-    imageUrl:
-      'https://images.pexels.com/photos/5734963/pexels-photo-5734963.jpeg?cs=srgb&dl=pexels-ramazannatass-5734963.jpg&fm=jpg',
-    href: '/program/drone-ai-workshop',
-  },
-  {
-    id: 'lectures',
-    title: '교수진 3인 + 게스트 강사 2인 특강',
-    description: '강민곤·손영권·박정원 교수와 실리콘밸리 AI, 항공우주 특강을 만납니다.',
-    imageUrl:
-      'https://images.pexels.com/photos/8197558/pexels-photo-8197558.jpeg?cs=srgb&dl=pexels-yankrukov-8197558.jpg&fm=jpg',
-    href: '/program/professor-lecture',
-  },
-  {
-    id: 'battlebots',
-    title: 'BattleBots Destruct-A-Thon 현장 관람',
-    description: '로봇 공학, 설계, 전략이 실제 경기에서 작동하는 장면을 관람합니다.',
-    imageUrl: 'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=900',
-    href: '/program/schedule',
-  },
-  {
-    id: 'mentoring',
-    title: '1:1 수준 밀착 관리',
-    description: '학생 10명 : 멘토 5명, 운영진 9명 동행으로 성인 대 학생 약 1:1 케어를 제공합니다.',
-    imageUrl:
-      'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?cs=srgb&dl=pexels-max-fischer-5212345.jpg&fm=jpg',
-    href: '/team',
-  },
-] as const;
+const imageUrls = {
+  lab:
+    'https://images.pexels.com/photos/6208709/pexels-photo-6208709.jpeg?cs=srgb&dl=pexels-cottonbro-6208709.jpg&fm=jpg',
+  canyon:
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg/1280px-Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg',
+  drone:
+    'https://images.pexels.com/photos/5734963/pexels-photo-5734963.jpeg?cs=srgb&dl=pexels-ramazannatass-5734963.jpg&fm=jpg',
+  lecture:
+    'https://images.pexels.com/photos/8197558/pexels-photo-8197558.jpeg?cs=srgb&dl=pexels-yankrukov-8197558.jpg&fm=jpg',
+  mentoring:
+    'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?cs=srgb&dl=pexels-max-fischer-5212345.jpg&fm=jpg',
+  battlebots:
+    'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  desert:
+    'https://images.pexels.com/photos/2165688/pexels-photo-2165688.jpeg?auto=compress&cs=tinysrgb&w=1400',
+} as const;
 
 const factItems = [
   { label: '과정', value: '7일', note: '집중 과정' },
@@ -80,18 +26,74 @@ const factItems = [
   { label: '멘토', value: '1:1', note: '밀착 관리' },
 ] as const;
 
+const programTiles = [
+  {
+    title: 'DRI STEM 캠프',
+    description: '전기회로, Micro:bit, 현미경, AI 데이터 분석을 연구실 흐름으로 실습합니다.',
+    imageUrl: imageUrls.lab,
+    tone: 'blue',
+  },
+  {
+    title: '후버댐 + 그랜드캐년',
+    description: '댐 공학, 수력발전, 자연 지질 학습을 하루 일정으로 연결합니다.',
+    imageUrl: imageUrls.canyon,
+    tone: 'image',
+  },
+  {
+    title: 'BattleBots 현장 관람',
+    description: '로봇 공학과 설계 전략이 경기장에서 작동하는 장면을 직접 봅니다.',
+    imageUrl: imageUrls.battlebots,
+    tone: 'navy',
+  },
+  {
+    title: '코딩 + 사막 생태',
+    description: 'Micro:bit 센서 실험과 사막 생태 관찰을 STEM 프로젝트로 확장합니다.',
+    imageUrl: imageUrls.desert,
+    tone: 'image',
+  },
+  {
+    title: 'Drone & AI 워크숍',
+    description: 'UAV 자율비행과 AI 알고리즘을 직접 다루는 고급 워크숍입니다.',
+    imageUrl: imageUrls.drone,
+    tone: 'light',
+  },
+  {
+    title: '교수진 + 외부 전문가 특강',
+    description: '강민곤, 손영권, 박정원 교수와 게스트 강사가 AI와 STEM 진로를 다룹니다.',
+    imageUrl: imageUrls.lecture,
+    tone: 'image',
+  },
+] as const;
+
+const valueBlocks = [
+  {
+    title: '현직 과학자 1:1 멘토링',
+    description:
+      'DRI 박사진과 UNLV 이공계 멘토가 학생 10명과 직접 프로젝트를 진행하며 질문과 실험을 이끕니다.',
+    bullets: ['DRI 연구 환경 경험', '소수정예 프로젝트 피드백', '멘토와 함께하는 STEM 진로 탐색'],
+    imageUrl: imageUrls.mentoring,
+  },
+  {
+    title: 'DRI 수료증 + 진로 로드맵',
+    description:
+      '공식 수료증, 귀국 후 포트폴리오 피드백, 연 2회 진로 상담으로 캠프 이후까지 이어집니다.',
+    bullets: ['DRI 공식 수료증', '귀국 후 2주 내 개별 피드백', '진학 포트폴리오 활용 가능'],
+    imageUrl: imageUrls.lab,
+  },
+] as const;
+
 export function HomePage() {
   return (
     <>
       <HeroSection />
 
-      <section className="content-section values-section" id="program">
-        <div className="home-program-card">
+      <section className="pc-intro-section" id="program">
+        <div className="pc-section-heading">
           <p className="eyebrow">AI STEM Global Camp</p>
           <h2>미국 네바다에서 만나는 AI STEM 글로벌 캠프</h2>
           <p>
-            7일 집중과정, 10명 소수정예, 멘토 비율 1:1 수준의 밀착 케어,
-            DRI 수료증까지 연결되는 글로벌 STEM 몰입 프로그램입니다.
+            DRI 사막연구소, UNR, UNLV 네트워크를 기반으로 연구실 실습, AI 데이터 분석,
+            드론 워크숍, 현장 견학을 연결하는 7일 집중형 글로벌 STEM 캠프입니다.
           </p>
         </div>
 
@@ -116,60 +118,106 @@ export function HomePage() {
             ))}
           </div>
         </div>
-
-        <div className="home-value-section">
-          <h2>K-Nevada-School Camp의 핵심 가치 3가지!!</h2>
-          <div className="home-value-list">
-            {homeCoreValues.map((value) => (
-              <article className="home-value-card" key={value.title}>
-                <span>{value.number}</span>
-                <strong>{value.title}</strong>
-                <p>{value.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
       </section>
 
-      <section className="content-section">
-        <div className="section-title">
-          <h2>K-Nevada-School의 하이라이트</h2>
-          <p>터치로 옆으로 넘기며 핵심 활동을 확인할 수 있습니다.</p>
+      <section className="pc-academics-section">
+        <div className="pc-section-heading">
+          <p className="eyebrow">Program Highlights</p>
+          <h2>K-Nevada-School에서 경험하는 핵심 활동</h2>
+          <p>배틀봇 관람, DRI STEM 캠프, 드론 AI, 사막 생태, 후버댐과 그랜드캐년까지 한 흐름으로 설계했습니다.</p>
         </div>
 
-        <div className="activity-scroll">
-          {highlightCards.map((activity, index) => (
-            <a className="activity-card" href={activity.href} key={activity.id}>
-              <img alt="" className="activity-card__image" src={activity.imageUrl} />
-              <div className="activity-card__body">
-                <Sparkles aria-hidden="true" />
-                <h3>{activity.title}</h3>
-                <p>{activity.description}</p>
-              </div>
-              <span className="activity-card__index">{String(index + 1).padStart(2, '0')}</span>
-            </a>
+        <div className="pc-program-grid">
+          {programTiles.map((tile) => (
+            <article className={`pc-program-tile pc-program-tile--${tile.tone}`} key={tile.title}>
+              {tile.tone === 'image' ? (
+                <>
+                  <img alt="" src={tile.imageUrl} />
+                  <div>
+                    <h3>{tile.title}</h3>
+                    <p>{tile.description}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Sparkles aria-hidden="true" />
+                  <h3>{tile.title}</h3>
+                  <p>{tile.description}</p>
+                </>
+              )}
+            </article>
           ))}
         </div>
       </section>
 
-      <section className="content-section" id="tuition">
-        <div className="tuition-card">
-          <p className="eyebrow">Camp fee</p>
-          <h2>$4,800 / ₩7,200,000</h2>
-          <p>항공권은 별도 구매이며, 출발 약 2개월 전 가이드가 발송됩니다.</p>
-          <ul>
-            {campContent.inclusions.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <ButtonLink className="tuition-detail-link" href="/program/tuition" variant="primary">
-            자세히 보기
+      <section className="pc-values-section">
+        <div className="pc-section-heading">
+          <p className="eyebrow">Why K-Nevada?</p>
+          <h2>K-Nevada-School Camp의 핵심 가치 3가지!!</h2>
+        </div>
+
+        <div className="pc-value-layout">
+          {valueBlocks.map((block) => (
+            <article className="pc-value-block" key={block.title}>
+              <img alt="" src={block.imageUrl} />
+              <div>
+                <h3>{block.title}</h3>
+                <p>{block.description}</p>
+                <ul>
+                  {block.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="pc-video-section" id="media-preview">
+        <div className="media-video pc-video-frame">
+          <iframe
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            src="https://www.youtube.com/embed/u0qFC3z4IKI"
+            title="K-Nevada Camp 소개 영상"
+          />
+        </div>
+        <div className="pc-video-copy">
+          <p className="eyebrow">Campus Tour</p>
+          <h2>영상으로 먼저 만나는 네바다 STEM 캠프</h2>
+          <p>
+            현지 연구실, 대학 캠퍼스, 실습 중심 프로그램의 분위기를 영상과 갤러리로 확인할 수 있습니다.
+            실제 캠프는 소수정예 운영과 멘토링을 중심으로 진행됩니다.
+          </p>
+          <ButtonLink href="/media" variant="secondary">
+            영상 및 갤러리 보기
             <ChevronRight aria-hidden="true" />
           </ButtonLink>
         </div>
       </section>
 
-      <section className="content-section content-section--cta" id="contact">
+      <section className="pc-adventure-band">
+        <img alt="" src={imageUrls.canyon} />
+        <div>
+          <p className="eyebrow">Field Learning</p>
+          <h2>후버댐 + 그랜드캐년, 코딩 + 사막 생태까지</h2>
+          <p>
+            네바다의 자연과 공학 현장을 배경으로 관찰, 데이터 수집, AI 분석, STEM vlog 제작까지 연결합니다.
+          </p>
+          <ButtonLink href="/program/schedule" variant="secondary">
+            일정표 보기
+            <ChevronRight aria-hidden="true" />
+          </ButtonLink>
+        </div>
+      </section>
+
+      <section className="pc-final-cta" id="contact">
+        <div>
+          <p className="eyebrow">Apply now</p>
+          <h2>2027 Winter Camp 1기 모집</h2>
+          <p>정원 10명 소수정예로 운영되며, 접수 순서에 따라 마감됩니다.</p>
+        </div>
         <ButtonLink className="apply-cta" href="/apply" variant="primary">
           <ClipboardPenLine aria-hidden="true" />
           <span>캠프 신청하기</span>
