@@ -29,16 +29,21 @@ const galleryItems = [
 
 export function MediaPage() {
   return (
-    <section className="camp-intro-page">
+    <section className="camp-intro-page board-page">
       <a className="back-link" href="/">
         <ArrowLeft aria-hidden="true" />
         홈으로
       </a>
 
-      <div className="intro-hero">
+      <div className="board-hero">
         <p className="eyebrow">Video & Gallery</p>
         <h1>영상 및 갤러리</h1>
-        <p>연구실 실습, 드론 워크숍, 네바다 현장 견학 분위기를 미리 확인하세요.</p>
+        <p>영상과 사진 게시글을 등록해 캠프 현장 분위기를 공유하는 공간입니다.</p>
+      </div>
+
+      <div className="board-search">
+        <span>키워드를 입력해 주세요</span>
+        <button type="button">검색</button>
       </div>
 
       <div className="media-video">
@@ -50,7 +55,7 @@ export function MediaPage() {
         />
       </div>
 
-      <div className="gallery-list">
+      <div className="gallery-list gallery-board-grid">
         {galleryItems.map((item) => (
           <figure className="gallery-card" key={item.title}>
             <img alt="" src={item.imageUrl} />
