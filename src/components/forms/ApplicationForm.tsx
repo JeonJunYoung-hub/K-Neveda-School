@@ -5,15 +5,12 @@ type SavedApplication = {
   id: string;
   submittedAt: string;
   studentName: string;
-  grade: string;
-  schoolName: string;
   studentPhone: string;
+  parentName: string;
   parentPhone: string;
-  email: string;
   message: string;
 };
 
-const grades = ['초5', '초6', '중1', '중2', '중3', '고1'];
 const storageKey = 'k-nevada-camp-applications';
 const formName = 'k-nevada-camp-application';
 
@@ -43,11 +40,9 @@ export function ApplicationForm() {
       id: `application-${Date.now()}`,
       submittedAt: new Date().toLocaleString('ko-KR'),
       studentName: String(formData.get('studentName') || ''),
-      grade: String(formData.get('grade') || ''),
-      schoolName: String(formData.get('schoolName') || ''),
       studentPhone: String(formData.get('studentPhone') || ''),
+      parentName: String(formData.get('parentName') || ''),
       parentPhone: String(formData.get('parentPhone') || ''),
-      email: String(formData.get('email') || ''),
       message: String(formData.get('message') || ''),
     };
 
@@ -72,7 +67,7 @@ export function ApplicationForm() {
   return (
     <>
       <form
-        className="application-form"
+        className="application-form application-form--plain"
         data-netlify="true"
         name={formName}
         onSubmit={handleSubmit}
@@ -80,82 +75,38 @@ export function ApplicationForm() {
         <input name="form-name" type="hidden" value={formName} />
 
         <label>
-          <span>학생 이름 *</span>
-          <input name="studentName" placeholder="홍길동" required type="text" />
+          <span>학생 이름</span>
+          <input name="studentName" required type="text" />
         </label>
 
         <label>
-          <span>학년 *</span>
-          <select defaultValue="" name="grade" required>
-            <option disabled value="">
-              선택하세요
-            </option>
-            {grades.map((grade) => (
-              <option key={grade} value={grade}>
-                {grade}
-              </option>
-            ))}
-          </select>
+          <span>학생 연락처</span>
+          <input autoComplete="tel" inputMode="tel" name="studentPhone" required type="tel" />
         </label>
 
         <label>
-          <span>학교명</span>
-          <input name="schoolName" placeholder="OO초등학교 / OO중학교" type="text" />
+          <span>보호자 이름</span>
+          <input name="parentName" required type="text" />
         </label>
 
         <label>
-          <span>학생 연락처 *</span>
-          <input
-            autoComplete="tel"
-            inputMode="tel"
-            name="studentPhone"
-            placeholder="010-0000-0000"
-            required
-            type="tel"
-          />
+          <span>보호자 연락처</span>
+          <input autoComplete="tel" inputMode="tel" name="parentPhone" required type="tel" />
         </label>
 
-        <label>
-          <span>보호자 연락처 *</span>
-          <input
-            autoComplete="tel"
-            inputMode="tel"
-            name="parentPhone"
-            placeholder="010-0000-0000"
-            required
-            type="tel"
-          />
-        </label>
-
-        <label>
-          <span>이메일 *</span>
-          <input
-            autoComplete="email"
-            inputMode="email"
-            name="email"
-            placeholder="parent@email.com"
-            required
-            type="email"
-          />
-        </label>
-
-        <label>
-          <span>문의사항 (선택)</span>
-          <textarea
-            name="message"
-            placeholder="지원 동기나 궁금한 점을 남겨주세요."
-            rows={5}
-          />
+        <label className="application-form__wide">
+          <span className="sr-only">문의 내용</span>
+          <textarea name="message" placeholder="문의 내용" rows={5} />
         </label>
 
         <button className="submit-button" type="submit">
-          신청서 제출하기
+          신청서 제출
         </button>
 
         {submitted && <p className="form-success">신청 완료! 입력하신 정보가 저장되었습니다.</p>}
       </form>
 
-      <details className="application-vault">
+      <details className="application-vault application-vault--plain">
         <summary>저장된 신청 정보 보기</summary>
         {savedApplications.length === 0 ? (
           <p>아직 저장된 신청 정보가 없습니다.</p>
@@ -163,15 +114,12 @@ export function ApplicationForm() {
           <div className="application-vault__list">
             {savedApplications.map((application) => (
               <article key={application.id}>
-                <strong>
-                  {application.studentName} · {application.grade}
-                </strong>
+                <strong>{application.studentName}</strong>
                 <span>{application.submittedAt}</span>
-                <p>학교명: {application.schoolName || '미입력'}</p>
                 <p>학생 연락처: {application.studentPhone}</p>
+                <p>보호자: {application.parentName}</p>
                 <p>보호자 연락처: {application.parentPhone}</p>
-                <p>이메일: {application.email}</p>
-                {application.message && <p>문의사항: {application.message}</p>}
+                {application.message && <p>문의 내용: {application.message}</p>}
               </article>
             ))}
           </div>
