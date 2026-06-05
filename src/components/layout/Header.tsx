@@ -1,4 +1,4 @@
-import { Headphones, Menu, Search, X } from 'lucide-react';
+import { Menu, MessageCircle, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { siteConfig } from '../../config/siteConfig';
 
@@ -34,18 +34,10 @@ export function Header({ currentPath }: HeaderProps) {
         <Search aria-hidden="true" />
       </div>
 
-      <div className="desktop-support">
-        <span>
-          고객센터 이용안내
-          <Headphones aria-hidden="true" />
-        </span>
-        <strong>02-302-8560</strong>
-      </div>
-
-      <div className="flag-stack" aria-label="미국과 대한민국 협력 프로그램 안내">
-        <span aria-label="미국 국기" className="flag-us" role="img" />
-        <img alt="대한민국 국기" className="flag-kr-image" src="/korea-flag.svg" />
-      </div>
+      <a className="desktop-kakao-cta" href="/consult">
+        <MessageCircle aria-hidden="true" />
+        <span>카카오톡 상담</span>
+      </a>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
         {siteConfig.navigation.map((item) => (
@@ -58,13 +50,6 @@ export function Header({ currentPath }: HeaderProps) {
           </a>
         ))}
       </nav>
-
-      <div className="desktop-subnav" aria-label="보조 메뉴">
-        <a href="/consult">카카오톡 상담</a>
-        <span aria-hidden="true">▾</span>
-        <i />
-        <a href="#contact">고객센터</a>
-      </div>
 
       {isMenuOpen && (
         <nav className="mobile-menu" aria-label="Primary navigation">
