@@ -1,8 +1,7 @@
-import type { TouchEvent } from 'react';
+import type { CSSProperties, TouchEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { programModules } from '../../data/campContent';
-import { ButtonLink } from '../ui/ButtonLink';
 
 const heroSlides = [
   ...programModules.slice(0, 4),
@@ -65,19 +64,36 @@ export function HeroSection() {
   };
 
   return (
-    <section className="hero-section" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
-      <img alt="" className="hero-image" src={activeSlide.imageUrl} />
-      <div className="hero-overlay" />
-
-      <div className="hero-copy">
-        <p>{activeSlide.eyebrow}</p>
-        <h1>{activeSlide.title}</h1>
+    <section
+      className="hero-section hero-section--poster"
+      onTouchEnd={handleTouchEnd}
+      onTouchStart={handleTouchStart}
+      style={{
+        '--hero-image': `url(${activeSlide.imageUrl})`,
+      } as CSSProperties}
+    >
+      <div className="poster-copy">
+        <p className="poster-kicker">2027 K-Nevada-School 1기</p>
+        <p className="poster-subtitle">AI 시대와 글로벌 STEM의 미래</p>
+        <h1>
+          <span>{activeSlide.eyebrow}</span>
+          {activeSlide.title}
+        </h1>
         <p className="hero-description">{activeSlide.description}</p>
-        <ButtonLink href={activeSlide.href} variant="secondary">
-          자세히 보기
-          <ChevronRight aria-hidden="true" />
-        </ButtonLink>
       </div>
+
+      <a className="poster-info-band" href="/program/schedule" aria-label="일정표 페이지로 이동">
+        <strong>2027년 1월 11일(월) ~ 1월 19일(화)</strong>
+        <p>
+          장소 <b>미국 네바다 라스베가스 · DRI × UNLV / UNR</b>
+        </p>
+        <p>
+          대상 <b>초5~중3 10명 소수정예</b>
+        </p>
+        <p>
+          문의 <b>카카오톡채널 [K-Nevada-School]</b>
+        </p>
+      </a>
 
       <button className="hero-arrow hero-arrow--left" onClick={goToPrevious} type="button">
         <ChevronLeft aria-hidden="true" />
@@ -89,6 +105,9 @@ export function HeroSection() {
       </button>
 
       <div className="hero-dots" aria-label="배너 선택">
+        <span className="poster-count">
+          {String(activeIndex + 1).padStart(2, '0')} / {String(heroSlides.length).padStart(2, '0')}
+        </span>
         {heroSlides.map((slide, index) => (
           <button
             aria-label={`${slide.title} 보기`}
