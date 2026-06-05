@@ -1,7 +1,19 @@
-import { ArrowLeft } from 'lucide-react';
+import type { FormEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, PenLine } from 'lucide-react';
 
-const noticeItems = [
+type NoticeItem = {
+  id: string;
+  number: string;
+  label: string;
+  title: string;
+  description: string;
+  date: string;
+};
+
+const defaultNoticeItems: NoticeItem[] = [
   {
+    id: 'notice-13',
     number: '13',
     label: '모집',
     title: '2027 Winter Camp 정원 10명 선착순 접수',
@@ -9,6 +21,7 @@ const noticeItems = [
     date: '2026-06-05',
   },
   {
+    id: 'notice-12',
     number: '12',
     label: '일정',
     title: '1월 11일 출국, 1월 19일 인천 도착',
@@ -16,6 +29,7 @@ const noticeItems = [
     date: '2026-06-05',
   },
   {
+    id: 'notice-11',
     number: '11',
     label: '준비',
     title: '여권, ESTA, 여행자보험 확인 안내',
@@ -23,6 +37,7 @@ const noticeItems = [
     date: '2026-06-04',
   },
   {
+    id: 'notice-10',
     number: '10',
     label: '학습',
     title: 'DRI STEM Lab 3일 집중 과정 안내',
@@ -30,15 +45,57 @@ const noticeItems = [
     date: '2026-06-04',
   },
   {
+    id: 'notice-09',
     number: '09',
     label: '견학',
     title: '후버댐 + 그랜드캐년 필드러닝 안내',
     description: '댐 공학, 수력발전, 자연 지질 학습을 하루 일정으로 연결합니다.',
     date: '2026-06-03',
   },
-] as const;
+];
+
+const noticeStorageKey = 'k-nevada-notice-posts';
 
 export function NoticesPage() {
+  const [isWriting, setIsWriting] = useState(false);
+  const [customNoticeItems, setCustomNoticeItems] = useState<NoticeItem[]>([]);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(noticeStorageKey);
+    if (!saved) {
+      return;
+    }
+
+    try {
+      setCustomNoticeItems(JSON.parse(saved) as NoticeItem[]);
+    } catch {
+      setCustomNoticeItems([]);
+    }
+  }, []);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const nextItem: NoticeItem = {
+      id: `notice-${Date.now()}`,
+      number: String(defaultNoticeItems.length + customNoticeItems.length + 1).padStart(2, '0'),
+      label: String(formData.get('label') || '공지'),
+      title: String(formData.get('title') || ''),
+      description: String(formData.get('description') || ''),
+      date: new Date().toISOString().slice(0, 10),
+    };
+
+    const nextItems = [nextItem, ...customNoticeItems];
+    setCustomNoticeItems(nextItems);
+    window.localStorage.setItem(noticeStorageKey, JSON.stringify(nextItems));
+    form.reset();
+    setIsWriting(false);
+  };
+
+  const noticeItems = [...customNoticeItems, ...defaultNoticeItems];
+
   return (
     <section className="camp-intro-page board-page">
       <a className="back-link" href="/">
@@ -52,10 +109,34 @@ export function NoticesPage() {
         <p>캠프 모집, 일정, 준비사항 등 최신 안내를 확인하세요.</p>
       </div>
 
-      <div className="board-search">
-        <span>키워드를 입력해 주세요</span>
-        <button type="button">검색</button>
+      <div className="board-toolbar">
+        <div className="board-search">
+          <span>키워드를 입력해 주세요</span>
+          <button type="button">검색</button>
+        </div>
+        <button className="board-write-button" onClick={() => setIsWriting((value) => !value)} type="button">
+          <PenLine aria-hidden="true" />
+          글쓰기
+        </button>
       </div>
+
+      {isWriting && (
+        <form className="board-write-form" onSubmit={handleSubmit}>
+          <label>
+            <span>구분</span>
+            <input name="label" placeholder="공지" type="text" />
+          </label>
+          <label>
+            <span>제목</span>
+            <input name="title" required type="text" />
+          </label>
+          <label className="board-write-form__wide">
+            <span>내용</span>
+            <textarea name="description" required rows={5} />
+          </label>
+          <button type="submit">등록하기</button>
+        </form>
+      )}
 
       <div className="board-table">
         <div className="board-table__head">
@@ -65,7 +146,7 @@ export function NoticesPage() {
           <span>등록일</span>
         </div>
         {noticeItems.map((notice) => (
-          <article className="board-table__row" key={notice.title}>
+          <article className="board-table__row" key={notice.id}>
             <span>{notice.number}</span>
             <span>{notice.label}</span>
             <strong>{notice.title}</strong>
