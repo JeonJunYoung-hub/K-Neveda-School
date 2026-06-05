@@ -1,6 +1,7 @@
 import { DefaultLayout } from './components/layout/DefaultLayout';
 import { ApplyPage } from './pages/ApplyPage';
 import { CampIntroPage } from './pages/CampIntroPage';
+import { ConsultPage } from './pages/ConsultPage';
 import { HomePage } from './pages/HomePage';
 import { MediaPage } from './pages/MediaPage';
 import { NoticesPage } from './pages/NoticesPage';
@@ -26,6 +27,8 @@ export function App() {
       <MediaPage />
     ) : currentPath === '/team' ? (
       <TeamPage />
+    ) : currentPath === '/consult' ? (
+      <ConsultPage />
     ) : (
       <HomePage />
     );
