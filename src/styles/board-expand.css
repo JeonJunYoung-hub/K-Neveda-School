@@ -1,0 +1,78 @@
+.board-table__row--expandable {
+  padding: 0;
+}
+
+.board-table__row--expandable summary {
+  cursor: pointer;
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  grid-template-columns: 64px 78px minmax(0, 1fr) 110px;
+  list-style: none;
+  padding: 18px 8px;
+}
+
+.board-table__row--expandable summary::-webkit-details-marker {
+  display: none;
+}
+
+.board-table__row--expandable summary strong::after {
+  color: #0077c8;
+  content: " +";
+  font-size: 0.92rem;
+  font-weight: 950;
+  margin-left: 8px;
+}
+
+.board-table__row--expandable[open] summary strong::after {
+  content: " -";
+}
+
+.board-table__row--expandable .board-row-detail {
+  background: #f7fbff;
+  border-top: 1px solid #dce7f8;
+  grid-column: 1 / -1;
+  padding: 20px 28px 22px 168px;
+}
+
+.board-table__row--expandable .board-row-detail p {
+  color: #263d61;
+  font-size: 1rem;
+  font-weight: 760;
+  grid-column: auto;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.faq-table .board-table__row--expandable summary {
+  grid-template-columns: 76px minmax(180px, 0.42fr) minmax(0, 1fr);
+}
+
+.faq-table .board-row-toggle {
+  color: #0077c8;
+  font-weight: 950;
+  text-align: left;
+}
+
+.faq-table .board-table__row--expandable .board-row-detail {
+  padding-left: 112px;
+}
+
+@media (max-width: 680px) {
+  .board-table__row--expandable summary,
+  .faq-table .board-table__row--expandable summary {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .board-table__row--expandable summary span:nth-child(2),
+  .board-table__row--expandable summary time,
+  .board-table__row--expandable summary strong {
+    grid-column: 2;
+  }
+
+  .board-table__row--expandable .board-row-detail,
+  .faq-table .board-table__row--expandable .board-row-detail {
+    padding: 18px;
+  }
+}
