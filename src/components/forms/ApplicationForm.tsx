@@ -1,5 +1,6 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
+import { createDocument, isFirebaseConfigured } from '../../lib/firebaseRest';
 
 type ApplicationStep = 1 | 2 | 3;
 
@@ -62,6 +63,7 @@ export function ApplicationForm() {
   const [step, setStep] = useState<ApplicationStep>(1);
   const [hasAgreed, setHasAgreed] = useState(false);
   const [submittedApplication, setSubmittedApplication] = useState<SavedApplication | null>(null);
+  const [saveMessage, setSaveMessage] = useState('');
 
   const handleAgreement = () => {
     setHasAgreed(true);
@@ -69,12 +71,16 @@ export function ApplicationForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const birthDate = [formData.get('birthYear'), formData.get('birthMonth'), formData.get('birthDay')]
+    const birthDate = [
+      formData.get('birthYear'),
+      formData.get('birthMonth'),
+      formData.get('birthDay'),
+    ]
       .filter(Boolean)
       .join('-');
 
@@ -102,11 +108,28 @@ export function ApplicationForm() {
       referral: String(formData.get('referral') || ''),
     };
 
-    const saved = window.localStorage.getItem(storageKey);
-    const savedApplications = saved ? (JSON.parse(saved) as SavedApplication[]) : [];
-    window.localStorage.setItem(storageKey, JSON.stringify([application, ...savedApplications]));
+    const saveLocal = () => {
+      const saved = window.localStorage.getItem(storageKey);
+      const savedApplications = saved ? (JSON.parse(saved) as SavedApplication[]) : [];
+      window.localStorage.setItem(storageKey, JSON.stringify([application, ...savedApplications]));
+    };
+
+    if (isFirebaseConfigured()) {
+      try {
+        await createDocument('applications', application);
+        setSaveMessage('신청 정보가 접수되었습니다.');
+      } catch {
+        saveLocal();
+        setSaveMessage('Firebase 저장에 실패해 현재 브라우저에 임시 저장했습니다.');
+      }
+    } else {
+      saveLocal();
+      setSaveMessage('Firebase 설정 전이라 현재 브라우저에 임시 저장했습니다.');
+    }
+
     setSubmittedApplication(application);
     setStep(3);
+
     form.reset();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -294,6 +317,7 @@ export function ApplicationForm() {
           <p>
             {submittedApplication?.studentName || '학생'}님의 신청 정보가 저장되었습니다. 운영팀 확인 후 안내드리겠습니다.
           </p>
+          {saveMessage && <p className="application-complete__note">{saveMessage}</p>}
           <a href="/">홈으로 이동</a>
         </section>
       )}
