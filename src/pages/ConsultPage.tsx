@@ -138,11 +138,16 @@ export function ConsultPage() {
           <span>답변</span>
         </div>
         {faqItems.map((item) => (
-          <article className="board-table__row" key={item.id}>
-            <span>{item.number}</span>
-            <strong>{item.title}</strong>
-            <p>{item.answer}</p>
-          </article>
+          <details className="board-table__row board-table__row--expandable" key={item.id}>
+            <summary>
+              <span>{item.number}</span>
+              <strong>{item.title}</strong>
+              <span className="board-row-toggle">답변 보기</span>
+            </summary>
+            <div className="board-row-detail">
+              <p>{item.answer}</p>
+            </div>
+          </details>
         ))}
       </div>
     </section>
