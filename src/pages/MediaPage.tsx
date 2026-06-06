@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, PenLine } from 'lucide-react';
+import { createDocument, isFirebaseConfigured, listDocuments } from '../lib/firebaseRest';
 
 type GalleryItem = {
   id: string;
@@ -45,21 +46,30 @@ const galleryStorageKey = 'k-nevada-gallery-posts';
 export function MediaPage() {
   const [isWriting, setIsWriting] = useState(false);
   const [customGalleryItems, setCustomGalleryItems] = useState<GalleryItem[]>([]);
+  const [remoteGalleryItems, setRemoteGalleryItems] = useState<GalleryItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
     const saved = window.localStorage.getItem(galleryStorageKey);
-    if (!saved) {
+    if (saved) {
+      try {
+        setCustomGalleryItems(JSON.parse(saved) as GalleryItem[]);
+      } catch {
+        setCustomGalleryItems([]);
+      }
+    }
+
+    if (!isFirebaseConfigured()) {
       return;
     }
 
-    try {
-      setCustomGalleryItems(JSON.parse(saved) as GalleryItem[]);
-    } catch {
-      setCustomGalleryItems([]);
-    }
+    listDocuments<GalleryItem>('media')
+      .then((items) => setRemoteGalleryItems(items.reverse()))
+      .catch(() => undefined);
   }, []);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -73,14 +83,36 @@ export function MediaPage() {
         'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?cs=srgb&dl=pexels-max-fischer-5212345.jpg&fm=jpg',
     };
 
-    const nextItems = [nextItem, ...customGalleryItems];
-    setCustomGalleryItems(nextItems);
-    window.localStorage.setItem(galleryStorageKey, JSON.stringify(nextItems));
+    if (isFirebaseConfigured()) {
+      try {
+        const savedItem = await createDocument('media', nextItem);
+        setRemoteGalleryItems((items) => [savedItem as GalleryItem, ...items]);
+        setSaveMessage('영상 및 갤러리 글이 등록되었습니다.');
+      } catch {
+        const nextItems = [nextItem, ...customGalleryItems];
+        setCustomGalleryItems(nextItems);
+        window.localStorage.setItem(galleryStorageKey, JSON.stringify(nextItems));
+        setSaveMessage('Firebase 저장에 실패해 현재 브라우저에 임시 저장했습니다.');
+      }
+    } else {
+      const nextItems = [nextItem, ...customGalleryItems];
+      setCustomGalleryItems(nextItems);
+      window.localStorage.setItem(galleryStorageKey, JSON.stringify(nextItems));
+      setSaveMessage('Firebase 설정 전이라 현재 브라우저에 임시 저장했습니다.');
+    }
+
     form.reset();
     setIsWriting(false);
   };
 
-  const galleryItems = [...customGalleryItems, ...defaultGalleryItems];
+  const galleryItems = [...remoteGalleryItems, ...customGalleryItems, ...defaultGalleryItems].filter((item) => {
+    const keyword = searchQuery.trim().toLowerCase();
+    if (!keyword) {
+      return true;
+    }
+
+    return `${item.title} ${item.description}`.toLowerCase().includes(keyword);
+  });
 
   return (
     <section className="camp-intro-page board-page">
@@ -97,7 +129,13 @@ export function MediaPage() {
 
       <div className="board-toolbar">
         <div className="board-search">
-          <span>키워드를 입력해 주세요</span>
+          <input
+            aria-label="영상 및 갤러리 검색"
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="키워드를 입력해 주세요"
+            type="search"
+            value={searchQuery}
+          />
           <button type="button">검색</button>
         </div>
         <button className="board-write-button" onClick={() => setIsWriting((value) => !value)} type="button">
@@ -123,6 +161,7 @@ export function MediaPage() {
           <button type="submit">등록하기</button>
         </form>
       )}
+      {saveMessage && <p className="board-save-message">{saveMessage}</p>}
 
       <div className="media-video">
         <iframe
