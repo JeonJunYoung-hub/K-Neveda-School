@@ -2,6 +2,7 @@ import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, MessageCircle, PenLine } from 'lucide-react';
 import { ButtonLink } from '../components/ui/ButtonLink';
+import { createDocument, isFirebaseConfigured, listDocuments } from '../lib/firebaseRest';
 
 type FaqItem = {
   id: string;
@@ -42,21 +43,30 @@ const faqStorageKey = 'k-nevada-faq-posts';
 export function ConsultPage() {
   const [isWriting, setIsWriting] = useState(false);
   const [customFaqItems, setCustomFaqItems] = useState<FaqItem[]>([]);
+  const [remoteFaqItems, setRemoteFaqItems] = useState<FaqItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
     const saved = window.localStorage.getItem(faqStorageKey);
-    if (!saved) {
+    if (saved) {
+      try {
+        setCustomFaqItems(JSON.parse(saved) as FaqItem[]);
+      } catch {
+        setCustomFaqItems([]);
+      }
+    }
+
+    if (!isFirebaseConfigured()) {
       return;
     }
 
-    try {
-      setCustomFaqItems(JSON.parse(saved) as FaqItem[]);
-    } catch {
-      setCustomFaqItems([]);
-    }
+    listDocuments<FaqItem>('faqs')
+      .then((items) => setRemoteFaqItems(items.sort((a, b) => b.number.localeCompare(a.number))))
+      .catch(() => undefined);
   }, []);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -68,14 +78,36 @@ export function ConsultPage() {
       answer: String(formData.get('answer') || ''),
     };
 
-    const nextItems = [nextItem, ...customFaqItems];
-    setCustomFaqItems(nextItems);
-    window.localStorage.setItem(faqStorageKey, JSON.stringify(nextItems));
+    if (isFirebaseConfigured()) {
+      try {
+        const savedItem = await createDocument('faqs', nextItem);
+        setRemoteFaqItems((items) => [savedItem as FaqItem, ...items]);
+        setSaveMessage('상담문의 글이 등록되었습니다.');
+      } catch {
+        setSaveMessage('Firebase 저장에 실패해 현재 브라우저에 임시 저장했습니다.');
+        const nextItems = [nextItem, ...customFaqItems];
+        setCustomFaqItems(nextItems);
+        window.localStorage.setItem(faqStorageKey, JSON.stringify(nextItems));
+      }
+    } else {
+      const nextItems = [nextItem, ...customFaqItems];
+      setCustomFaqItems(nextItems);
+      window.localStorage.setItem(faqStorageKey, JSON.stringify(nextItems));
+      setSaveMessage('Firebase 설정 전이라 현재 브라우저에 임시 저장했습니다.');
+    }
+
     form.reset();
     setIsWriting(false);
   };
 
-  const faqItems = [...customFaqItems, ...defaultFaqItems];
+  const faqItems = [...remoteFaqItems, ...customFaqItems, ...defaultFaqItems].filter((item) => {
+    const keyword = searchQuery.trim().toLowerCase();
+    if (!keyword) {
+      return true;
+    }
+
+    return `${item.title} ${item.answer}`.toLowerCase().includes(keyword);
+  });
 
   return (
     <section className="camp-intro-page board-page">
@@ -108,7 +140,13 @@ export function ConsultPage() {
 
       <div className="board-toolbar">
         <div className="board-search">
-          <span>FAQ 키워드를 입력해 주세요</span>
+          <input
+            aria-label="FAQ 검색"
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="FAQ 키워드를 입력해 주세요"
+            type="search"
+            value={searchQuery}
+          />
           <button type="button">검색</button>
         </div>
         <button className="board-write-button" onClick={() => setIsWriting((value) => !value)} type="button">
@@ -130,6 +168,7 @@ export function ConsultPage() {
           <button type="submit">등록하기</button>
         </form>
       )}
+      {saveMessage && <p className="board-save-message">{saveMessage}</p>}
 
       <div className="board-table faq-table">
         <div className="board-table__head">
