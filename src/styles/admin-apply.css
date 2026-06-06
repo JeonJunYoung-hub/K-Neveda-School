@@ -14,7 +14,8 @@
 
 .application-flow__titlebar strong,
 .agreement-box h2,
-.application-detail-form h2 {
+.application-detail-form h2,
+.admin-panel h2 {
   color: var(--navy);
   font-size: 1.05rem;
   font-weight: 1000;
@@ -83,7 +84,8 @@
 }
 
 .agreement-box h2,
-.application-detail-form h2 {
+.application-detail-form h2,
+.admin-panel h2 {
   margin-bottom: 10px;
 }
 
@@ -236,19 +238,23 @@
   text-transform: uppercase;
 }
 
-.application-complete h2,
-.admin-login h1 {
+.application-complete h2 {
   color: var(--navy);
   font-size: clamp(2.4rem, 5vw, 4rem);
   line-height: 1.05;
   margin: 14px 0;
 }
 
-.application-complete p,
-.admin-login p {
+.application-complete p {
   color: #263d61;
   font-weight: 850;
   margin-bottom: 28px;
+}
+
+.application-complete .application-complete__note {
+  color: #0077c8;
+  font-size: 0.98rem;
+  margin-top: -12px;
 }
 
 .admin-page {
@@ -261,8 +267,101 @@
 
 .admin-login {
   margin: 80px auto 0;
-  max-width: 760px;
+  max-width: 560px;
   text-align: center;
+}
+
+.admin-login h1 {
+  color: var(--navy);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 1;
+  margin: 8px 0 14px;
+}
+
+.admin-login p {
+  color: #263d61;
+  font-weight: 850;
+}
+
+.admin-login form,
+.admin-write-form,
+.admin-inline-form {
+  display: grid;
+  gap: 14px;
+  text-align: left;
+}
+
+.admin-login form {
+  border-top: 2px solid #bfe9ff;
+  margin-top: 36px;
+  padding-top: 28px;
+}
+
+.admin-write-form {
+  background: #f7fbff;
+  border: 1px solid #cfeeff;
+  margin: 16px 0 26px;
+  padding: 22px;
+}
+
+.admin-login label,
+.admin-write-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-login span,
+.admin-write-form span {
+  color: var(--navy);
+  font-weight: 1000;
+}
+
+.admin-login input,
+.admin-write-form input,
+.admin-write-form textarea,
+.admin-inline-form input,
+.admin-inline-form textarea,
+.admin-status-form select {
+  border: 1px solid #c7d4e6;
+  color: var(--navy);
+  font: inherit;
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.admin-write-form textarea,
+.admin-inline-form textarea {
+  line-height: 1.55;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+.admin-login button,
+.admin-write-form button,
+.admin-top button,
+.admin-list-item button,
+.admin-inline-form button,
+.admin-status-form button {
+  align-items: center;
+  background: var(--navy);
+  border: 1px solid var(--navy);
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 1000;
+  gap: 8px;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+}
+
+.admin-login strong {
+  color: #d32f2f;
+}
+
+.admin-top {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .admin-notice {
@@ -270,14 +369,183 @@
   border-left: 5px solid #0077c8;
   color: #263d61;
   font-weight: 850;
-  line-height: 1.7;
-  margin: 28px 0 0;
-  padding: 18px 20px;
-  text-align: left;
+  margin: 0 0 22px;
+  padding: 16px 18px;
+}
+
+.board-save-message {
+  background: #eff9ff;
+  border-left: 5px solid #0077c8;
+  color: #263d61;
+  font-weight: 850;
+  margin: 16px 0 22px;
+  padding: 14px 18px;
+}
+
+.admin-tabs {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 26px 0;
+}
+
+.admin-tabs button {
+  background: #ffffff;
+  border: 1px solid #dce7f8;
+  color: var(--navy);
+  font-weight: 1000;
+  min-height: 52px;
+}
+
+.admin-tabs button.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #ffffff;
+}
+
+.admin-panel {
+  border-top: 2px solid #bfe9ff;
+  padding-top: 26px;
+}
+
+.admin-list {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-empty,
+.admin-list-item {
+  border: 1px solid #dce7f8;
+  padding: 20px;
+}
+
+.admin-list-item {
+  align-items: start;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+.admin-list-item span {
+  color: #0077c8;
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 1000;
+  margin-bottom: 8px;
+}
+
+.admin-list-item strong {
+  color: var(--navy);
+  display: block;
+  font-size: 1.16rem;
+  margin-bottom: 8px;
+}
+
+.admin-list-item p {
+  color: #263d61;
+  font-weight: 760;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.admin-list-item button {
+  background: #ffffff;
+  color: #d32f2f;
+  justify-self: start;
+}
+
+.admin-list-item__actions,
+.admin-top__actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-list-item__actions button:first-child {
+  color: #0077c8;
+}
+
+.admin-inline-form {
+  background: #f7fbff;
+  border: 1px solid #dce7f8;
+  padding: 16px;
+}
+
+.admin-status-form {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.admin-status-form select {
+  min-height: 42px;
+}
+
+.admin-status-form button {
+  min-height: 42px;
+}
+
+.admin-list-item--media img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 160px;
+}
+
+.admin-list-item--application dl {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 12px 0 0;
+}
+
+.admin-list-item--application div div {
+  background: #f7fbff;
+  padding: 10px 12px;
+}
+
+.admin-list-item--application dt {
+  color: #0077c8;
+  font-size: 0.78rem;
+  font-weight: 1000;
+}
+
+.admin-list-item--application dd {
+  color: var(--navy);
+  font-weight: 850;
+  margin: 4px 0 0;
 }
 
 @media (min-width: 760px) {
   .form-table {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-tabs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .admin-write-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-write-form__wide,
+  .admin-write-form button {
+    grid-column: 1 / -1;
+  }
+
+  .admin-write-form button {
+    justify-self: start;
+    min-width: 180px;
+  }
+
+  .admin-list-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .admin-list-item--media {
+    grid-template-columns: 180px minmax(0, 1fr) auto;
   }
 }
