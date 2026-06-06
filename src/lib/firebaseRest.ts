@@ -104,13 +104,29 @@ function getHeaders(idToken?: string) {
   };
 }
 
+function describeFirebaseError(errorText: string) {
+  const codeMatch = errorText.match(/"message"\s*:\s*"([^"]+)"/);
+  const code = codeMatch?.[1] || errorText;
+
+  const messages: Record<string, string> = {
+    EMAIL_NOT_FOUND: 'Firebase Authentication 사용자 목록에 이 이메일이 없습니다.',
+    INVALID_LOGIN_CREDENTIALS: 'Firebase 이메일/비밀번호가 일치하지 않거나, 이 계정에 이메일/비밀번호 제공업체가 연결되어 있지 않습니다.',
+    INVALID_PASSWORD: '비밀번호가 Firebase 사용자 비밀번호와 일치하지 않습니다.',
+    USER_DISABLED: 'Firebase에서 이 사용자가 비활성화되어 있습니다.',
+    OPERATION_NOT_ALLOWED: 'Firebase Authentication에서 이메일/비밀번호 로그인이 꺼져 있습니다.',
+    API_KEY_INVALID: 'Netlify에 입력한 Firebase API key가 올바르지 않습니다.',
+  };
+
+  return messages[code] ? `${messages[code]} (${code})` : `Firebase 오류: ${code}`;
+}
+
 async function assertOk(response: Response) {
   if (response.ok) {
     return;
   }
 
   const text = await response.text();
-  throw new Error(text || response.statusText);
+  throw new Error(describeFirebaseError(text || response.statusText));
 }
 
 export async function signInAdmin(email: string, password: string): Promise<SignInResponse> {
