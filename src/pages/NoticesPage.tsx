@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, PenLine } from 'lucide-react';
+import { createDocument, isFirebaseConfigured, listDocuments } from '../lib/firebaseRest';
 
 type NoticeItem = {
   id: string;
@@ -59,21 +60,30 @@ const noticeStorageKey = 'k-nevada-notice-posts';
 export function NoticesPage() {
   const [isWriting, setIsWriting] = useState(false);
   const [customNoticeItems, setCustomNoticeItems] = useState<NoticeItem[]>([]);
+  const [remoteNoticeItems, setRemoteNoticeItems] = useState<NoticeItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
     const saved = window.localStorage.getItem(noticeStorageKey);
-    if (!saved) {
+    if (saved) {
+      try {
+        setCustomNoticeItems(JSON.parse(saved) as NoticeItem[]);
+      } catch {
+        setCustomNoticeItems([]);
+      }
+    }
+
+    if (!isFirebaseConfigured()) {
       return;
     }
 
-    try {
-      setCustomNoticeItems(JSON.parse(saved) as NoticeItem[]);
-    } catch {
-      setCustomNoticeItems([]);
-    }
+    listDocuments<NoticeItem>('notices')
+      .then((items) => setRemoteNoticeItems(items.sort((a, b) => b.date.localeCompare(a.date))))
+      .catch(() => undefined);
   }, []);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -87,14 +97,36 @@ export function NoticesPage() {
       date: new Date().toISOString().slice(0, 10),
     };
 
-    const nextItems = [nextItem, ...customNoticeItems];
-    setCustomNoticeItems(nextItems);
-    window.localStorage.setItem(noticeStorageKey, JSON.stringify(nextItems));
+    if (isFirebaseConfigured()) {
+      try {
+        const savedItem = await createDocument('notices', nextItem);
+        setRemoteNoticeItems((items) => [savedItem as NoticeItem, ...items]);
+        setSaveMessage('공지사항이 등록되었습니다.');
+      } catch {
+        setSaveMessage('Firebase 저장에 실패해 현재 브라우저에 임시 저장했습니다.');
+        const nextItems = [nextItem, ...customNoticeItems];
+        setCustomNoticeItems(nextItems);
+        window.localStorage.setItem(noticeStorageKey, JSON.stringify(nextItems));
+      }
+    } else {
+      const nextItems = [nextItem, ...customNoticeItems];
+      setCustomNoticeItems(nextItems);
+      window.localStorage.setItem(noticeStorageKey, JSON.stringify(nextItems));
+      setSaveMessage('Firebase 설정 전이라 현재 브라우저에 임시 저장했습니다.');
+    }
+
     form.reset();
     setIsWriting(false);
   };
 
-  const noticeItems = [...customNoticeItems, ...defaultNoticeItems];
+  const noticeItems = [...remoteNoticeItems, ...customNoticeItems, ...defaultNoticeItems].filter((notice) => {
+    const keyword = searchQuery.trim().toLowerCase();
+    if (!keyword) {
+      return true;
+    }
+
+    return `${notice.label} ${notice.title} ${notice.description}`.toLowerCase().includes(keyword);
+  });
 
   return (
     <section className="camp-intro-page board-page">
@@ -111,7 +143,13 @@ export function NoticesPage() {
 
       <div className="board-toolbar">
         <div className="board-search">
-          <span>키워드를 입력해 주세요</span>
+          <input
+            aria-label="공지사항 검색"
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="키워드를 입력해 주세요"
+            type="search"
+            value={searchQuery}
+          />
           <button type="button">검색</button>
         </div>
         <button className="board-write-button" onClick={() => setIsWriting((value) => !value)} type="button">
@@ -137,6 +175,7 @@ export function NoticesPage() {
           <button type="submit">등록하기</button>
         </form>
       )}
+      {saveMessage && <p className="board-save-message">{saveMessage}</p>}
 
       <div className="board-table">
         <div className="board-table__head">
