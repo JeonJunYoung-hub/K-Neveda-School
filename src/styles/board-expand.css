@@ -1,4 +1,5 @@
 .board-table__row--expandable {
+  display: block;
   padding: 0;
 }
 
@@ -16,6 +17,26 @@
   display: none;
 }
 
+.board-search input {
+  border: 0;
+  color: #0b2a58;
+  font: inherit;
+  font-weight: 850;
+  min-height: 48px;
+  min-width: 0;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.board-search input::placeholder {
+  color: #9aa8ba;
+}
+
+.board-search input:focus {
+  outline: 2px solid #bfe9ff;
+  outline-offset: -2px;
+}
+
 .board-table__row--expandable summary strong::after {
   color: #0077c8;
   content: " +";
@@ -31,8 +52,10 @@
 .board-table__row--expandable .board-row-detail {
   background: #f7fbff;
   border-top: 1px solid #dce7f8;
+  display: block;
   grid-column: 1 / -1;
-  padding: 20px 28px 22px 168px;
+  padding: 22px 28px;
+  width: 100%;
 }
 
 .board-table__row--expandable .board-row-detail p {
@@ -56,7 +79,7 @@
 }
 
 .faq-table .board-table__row--expandable .board-row-detail {
-  padding-left: 112px;
+  padding-left: 28px;
 }
 
 @media (max-width: 680px) {
