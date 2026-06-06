@@ -122,7 +122,7 @@ export function AdminPage() {
       return;
     }
 
-    refreshData(session.idToken).catch(() => setFeedback('관리 데이터를 불러오지 못했습니다.'));
+    refreshData(session.idToken).catch((error) => setFeedback(error instanceof Error ? error.message : '관리 데이터를 불러오지 못했습니다.'));
   }, [session]);
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
@@ -147,8 +147,8 @@ export function AdminPage() {
       setSession(nextSession);
       setLoginError('');
       setFeedback('관리자 로그인이 완료되었습니다.');
-    } catch {
-      setLoginError('이메일 또는 비밀번호를 확인해 주세요.');
+    } catch (error) {
+      setLoginError(error instanceof Error ? error.message : '이메일 또는 비밀번호를 확인해 주세요.');
     }
   };
 
