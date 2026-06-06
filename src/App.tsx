@@ -1,5 +1,6 @@
 import { DefaultLayout } from './components/layout/DefaultLayout';
 import { ApplyPage } from './pages/ApplyPage';
+import { AdminPage } from './pages/AdminPage';
 import { CampIntroPage } from './pages/CampIntroPage';
 import { ConsultPage } from './pages/ConsultPage';
 import { HomePage } from './pages/HomePage';
@@ -21,6 +22,8 @@ export function App() {
       <ProgramDetailPage slug={programMatch[1]} />
     ) : currentPath === '/apply' ? (
       <ApplyPage />
+    ) : currentPath === '/admin' ? (
+      <AdminPage />
     ) : currentPath === '/notices' ? (
       <NoticesPage />
     ) : currentPath === '/media' ? (
