@@ -146,13 +146,17 @@ export function NoticesPage() {
           <span>등록일</span>
         </div>
         {noticeItems.map((notice) => (
-          <article className="board-table__row" key={notice.id}>
-            <span>{notice.number}</span>
-            <span>{notice.label}</span>
-            <strong>{notice.title}</strong>
-            <time>{notice.date}</time>
-            <p>{notice.description}</p>
-          </article>
+          <details className="board-table__row board-table__row--expandable" key={notice.id}>
+            <summary>
+              <span>{notice.number}</span>
+              <span>{notice.label}</span>
+              <strong>{notice.title}</strong>
+              <time>{notice.date}</time>
+            </summary>
+            <div className="board-row-detail">
+              <p>{notice.description}</p>
+            </div>
+          </details>
         ))}
       </div>
     </section>
