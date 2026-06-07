@@ -10,6 +10,7 @@ import './styles/board-write-overrides.css';
 import './styles/admin-apply.css';
 import './styles/board-expand.css';
 import './styles/latest-admin-content.css';
+import './styles/mobile-fixes.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
