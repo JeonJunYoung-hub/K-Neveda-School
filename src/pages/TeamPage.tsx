@@ -21,6 +21,19 @@ const teamMembers = [
   },
 ] as const;
 
+const operationsMembers = [
+  {
+    role: '학생 멘토 5명',
+    title: 'UNLV 이공계 재학생',
+    description: '한국어 소통이 가능하며 학생 10명 대비 2:1 비율로 배정되어 실습과 생활 적응을 밀착 지원합니다.',
+  },
+  {
+    role: '운영 스태프 3명',
+    title: '현장 운영 전담',
+    description: '프로그램 코디네이터, 현장 안전관리자, 미디어·학부모 소통 담당으로 나뉘어 캠프 전 과정을 관리합니다.',
+  },
+] as const;
+
 export function TeamPage() {
   return (
     <section className="camp-intro-page team-page-simple">
@@ -44,6 +57,22 @@ export function TeamPage() {
           </article>
         ))}
       </div>
+
+      <section className="team-operations-section">
+        <div className="section-title">
+          <p className="eyebrow">K-Nevada-School Staff</p>
+          <h2>K-Nevada-School 운영진</h2>
+        </div>
+        <div className="team-card-grid-simple team-card-grid-simple--two">
+          {operationsMembers.map((member) => (
+            <article className="team-card-simple" key={member.role}>
+              <span>{member.role}</span>
+              <h2>{member.title}</h2>
+              <p>{member.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </section>
   );
 }
