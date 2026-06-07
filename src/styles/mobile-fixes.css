@@ -52,7 +52,8 @@
   }
 
   .desktop-search,
-  .desktop-kakao-cta {
+  .desktop-kakao-cta,
+  .desktop-nav {
     display: none !important;
   }
 
@@ -74,23 +75,32 @@
   .hero-section--poster {
     background: var(--navy);
     display: grid;
-    min-height: 560px;
+    min-height: 0;
     overflow: hidden;
+    padding-bottom: 68px;
   }
 
   .hero-section--poster::before {
     background-image: var(--hero-image);
-    background-position: center;
-    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: contain;
     content: "";
     inset: 0;
-    opacity: 0.34;
+    opacity: 0.46;
+    position: absolute;
+  }
+
+  .hero-section--poster::after {
+    background: linear-gradient(180deg, rgba(8, 33, 74, 0.62), rgba(8, 33, 74, 0.94) 54%, rgba(8, 33, 74, 1));
+    content: "";
+    inset: 0;
     position: absolute;
   }
 
   .poster-copy {
     color: #ffffff;
-    padding: 28px 20px 18px;
+    padding: 24px 20px 12px;
     position: relative;
     width: 100%;
     z-index: 2;
@@ -112,8 +122,8 @@
 
   .poster-copy h1 {
     color: #ffffff;
-    font-size: clamp(2.05rem, 12vw, 3.15rem);
-    line-height: 1.04;
+    font-size: clamp(1.82rem, 9vw, 2.45rem);
+    line-height: 1.08;
     margin: 0 0 12px;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -129,7 +139,7 @@
 
   .poster-copy .hero-description {
     color: #ffffff;
-    font-size: 0.9rem;
+    font-size: 0.84rem;
     line-height: 1.55;
     max-width: 100%;
   }
@@ -139,8 +149,8 @@
     border-bottom: 1px solid #78cfff;
     border-top: 1px solid #78cfff;
     color: var(--navy);
-    margin: 10px 0 0;
-    padding: 18px 20px;
+    margin: 6px 0 0;
+    padding: 14px 20px;
     position: relative;
     width: 100%;
     z-index: 2;
@@ -149,14 +159,14 @@
   .poster-info-band strong {
     color: var(--navy);
     display: block;
-    font-size: clamp(1.25rem, 6vw, 1.65rem);
+    font-size: clamp(1.08rem, 5.2vw, 1.38rem);
     line-height: 1.25;
     margin-bottom: 10px;
   }
 
   .poster-info-band p {
     color: var(--navy);
-    font-size: 0.88rem;
+    font-size: 0.78rem;
     font-weight: 780;
     line-height: 1.5;
     margin: 0;
@@ -231,6 +241,39 @@
     padding-left: 18px;
     padding-right: 18px;
     width: 100%;
+  }
+
+  .pc-program-tile {
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .pc-program-tile h3,
+  .pc-value-block h3,
+  .pc-video-copy h2,
+  .pc-adventure-band h2,
+  .pc-final-cta h2 {
+    font-size: clamp(1.42rem, 7.2vw, 2.05rem);
+    line-height: 1.16;
+  }
+
+  .pc-program-tile p,
+  .pc-value-block p,
+  .pc-video-copy p,
+  .pc-adventure-band p,
+  .pc-final-cta p {
+    font-size: 0.9rem;
+    line-height: 1.58;
+  }
+
+  .pc-program-tile--image {
+    background: #eef4fb;
+    min-height: 220px;
+  }
+
+  .pc-program-tile--image img {
+    background: #eef4fb;
+    object-fit: contain;
   }
 
   .pc-section-heading h2,
@@ -358,7 +401,28 @@
   }
 
   .gallery-card img {
+    background: #eef4fb;
+    height: 190px;
+    object-fit: contain;
+  }
+
+  .program-detail-hero {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .program-detail-hero img {
+    background: #eef4fb;
     height: 210px;
+    object-fit: contain;
+  }
+
+  .program-detail-hero__copy {
+    padding: 18px 16px 20px;
+  }
+
+  .program-detail-hero__copy h1 {
+    font-size: clamp(1.7rem, 8vw, 2.2rem);
   }
 
   .tuition-detail-box {
@@ -422,11 +486,31 @@
   }
 
   .schedule-photo-hero img {
+    background: var(--navy);
     height: 250px;
+    object-fit: contain;
   }
 
   .schedule-photo-hero div {
-    padding: 34px 20px;
+    padding: 30px 18px;
+  }
+
+  .schedule-photo-hero h1 {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
+  .pc-adventure-band {
+    min-height: 320px;
+  }
+
+  .pc-adventure-band > img {
+    background: var(--navy);
+    object-fit: contain;
+  }
+
+  .pc-adventure-band > div {
+    min-height: 320px;
+    padding: 42px 18px;
   }
 
   .timetable-week {
