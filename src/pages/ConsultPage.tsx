@@ -6,64 +6,26 @@ import { createDocument, isFirebaseConfigured, listDocuments } from '../lib/fire
 
 type FaqItem = {
   id: string;
-  number: string;
   title: string;
+  content?: string;
   answer: string;
+  date?: string;
 };
-
-const defaultFaqItems: FaqItem[] = [
-  {
-    id: 'faq-01',
-    number: '01',
-    title: '대상 학년은 어떻게 되나요?',
-    answer: '초등학교 5학년부터 중학교 3학년까지 10명 소수정예로 운영합니다.',
-  },
-  {
-    id: 'faq-02',
-    number: '02',
-    title: '멘토 비율은 어떻게 운영되나요?',
-    answer: '학생 10명 기준 멘토 5명과 운영진 9명이 동행해 학습과 생활을 함께 관리합니다.',
-  },
-  {
-    id: 'faq-03',
-    number: '03',
-    title: '항공권과 서류 준비는 언제 안내되나요?',
-    answer: '등록 확정 후 항공권, ESTA, 여행자보험, 준비물 체크리스트를 순차 안내합니다.',
-  },
-  {
-    id: 'faq-04',
-    number: '04',
-    title: '귀국 후 피드백도 제공되나요?',
-    answer: '귀국 후 2주 내 포트폴리오 피드백과 개별 진로 로드맵 안내를 제공합니다.',
-  },
-];
-
-const faqStorageKey = 'k-nevada-faq-posts';
 
 export function ConsultPage() {
   const [isWriting, setIsWriting] = useState(false);
-  const [customFaqItems, setCustomFaqItems] = useState<FaqItem[]>([]);
-  const [remoteFaqItems, setRemoteFaqItems] = useState<FaqItem[]>([]);
+  const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
-    const saved = window.localStorage.getItem(faqStorageKey);
-    if (saved) {
-      try {
-        setCustomFaqItems(JSON.parse(saved) as FaqItem[]);
-      } catch {
-        setCustomFaqItems([]);
-      }
-    }
-
     if (!isFirebaseConfigured()) {
       return;
     }
 
     listDocuments<FaqItem>('faqs')
-      .then((items) => setRemoteFaqItems(items.sort((a, b) => b.number.localeCompare(a.number))))
-      .catch(() => undefined);
+      .then((items) => setFaqItems(items.sort((a, b) => (b.date || '').localeCompare(a.date || ''))))
+      .catch(() => setFaqItems([]));
   }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -72,41 +34,37 @@ export function ConsultPage() {
     const form = event.currentTarget;
     const formData = new FormData(form);
     const nextItem: FaqItem = {
-      id: `faq-${Date.now()}`,
-      number: String(customFaqItems.length + defaultFaqItems.length + 1).padStart(2, '0'),
+      answer: '',
+      content: String(formData.get('content') || ''),
+      date: new Date().toISOString().slice(0, 10),
+      id: '',
       title: String(formData.get('title') || ''),
-      answer: String(formData.get('answer') || ''),
     };
 
-    if (isFirebaseConfigured()) {
-      try {
-        const savedItem = await createDocument('faqs', nextItem);
-        setRemoteFaqItems((items) => [savedItem as FaqItem, ...items]);
-        setSaveMessage('상담문의 글이 등록되었습니다.');
-      } catch {
-        setSaveMessage('Firebase 저장에 실패해 현재 브라우저에 임시 저장했습니다.');
-        const nextItems = [nextItem, ...customFaqItems];
-        setCustomFaqItems(nextItems);
-        window.localStorage.setItem(faqStorageKey, JSON.stringify(nextItems));
-      }
-    } else {
-      const nextItems = [nextItem, ...customFaqItems];
-      setCustomFaqItems(nextItems);
-      window.localStorage.setItem(faqStorageKey, JSON.stringify(nextItems));
-      setSaveMessage('Firebase 설정 전이라 현재 브라우저에 임시 저장했습니다.');
+    if (!isFirebaseConfigured()) {
+      setSaveMessage('Firebase 설정 전이라 문의를 저장할 수 없습니다.');
+      return;
     }
 
-    form.reset();
-    setIsWriting(false);
+    try {
+      const savedItem = await createDocument('faqs', nextItem);
+      setFaqItems((items) => [savedItem as FaqItem, ...items]);
+      setSaveMessage('상담문의가 등록되었습니다. 운영팀 확인 후 답변드리겠습니다.');
+      form.reset();
+      setIsWriting(false);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '알 수 없는 Firebase 오류입니다.';
+      setSaveMessage(`Firebase 저장 실패: ${message}`);
+    }
   };
 
-  const faqItems = [...remoteFaqItems, ...customFaqItems, ...defaultFaqItems].filter((item) => {
+  const filteredItems = faqItems.filter((item) => {
     const keyword = searchQuery.trim().toLowerCase();
     if (!keyword) {
       return true;
     }
 
-    return `${item.title} ${item.answer}`.toLowerCase().includes(keyword);
+    return `${item.title} ${item.content || ''} ${item.answer}`.toLowerCase().includes(keyword);
   });
 
   return (
@@ -133,7 +91,7 @@ export function ConsultPage() {
         </article>
         <article>
           <strong>상담 가능 시간</strong>
-          <p>모집 기간 중 순차적으로 응대합니다. 남겨주신 문의는 운영팀 확인 후 안내드립니다.</p>
+          <p>모집 기간 중 순차적으로 응답합니다. 남겨주신 문의는 운영팀 확인 후 안내드립니다.</p>
           <span>카카오톡채널 [K-Nevada-School]</span>
         </article>
       </div>
@@ -158,12 +116,12 @@ export function ConsultPage() {
       {isWriting && (
         <form className="board-write-form" onSubmit={handleSubmit}>
           <label>
-            <span>질문</span>
+            <span>제목</span>
             <input name="title" required type="text" />
           </label>
-          <label>
-            <span>답변</span>
-            <textarea name="answer" required rows={4} />
+          <label className="board-write-form__wide">
+            <span>내용</span>
+            <textarea name="content" required rows={5} />
           </label>
           <button type="submit">등록하기</button>
         </form>
@@ -176,18 +134,23 @@ export function ConsultPage() {
           <span>질문</span>
           <span>답변</span>
         </div>
-        {faqItems.map((item) => (
-          <details className="board-table__row board-table__row--expandable" key={item.id}>
-            <summary>
-              <span>{item.number}</span>
-              <strong>{item.title}</strong>
-              <span className="board-row-toggle">답변 보기</span>
-            </summary>
-            <div className="board-row-detail">
-              <p>{item.answer}</p>
-            </div>
-          </details>
-        ))}
+        {filteredItems.length > 0 ? (
+          filteredItems.map((item, index) => (
+            <details className="board-table__row board-table__row--expandable" key={item.id}>
+              <summary>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{item.title}</strong>
+                <span className="board-row-toggle">{item.answer ? '답변 완료' : '답변 대기'}</span>
+              </summary>
+              <div className="board-row-detail">
+                <p>{item.content || item.title}</p>
+                {item.answer && <p>{item.answer}</p>}
+              </div>
+            </details>
+          ))
+        ) : (
+          <p className="admin-empty">등록된 상담문의가 없습니다.</p>
+        )}
       </div>
     </section>
   );
