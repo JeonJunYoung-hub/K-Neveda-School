@@ -1,0 +1,468 @@
+@media (max-width: 899px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .app-shell {
+    box-shadow: none;
+    max-width: none;
+    overflow-x: hidden;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .bottom-nav {
+    display: none !important;
+  }
+
+  .site-header {
+    grid-template-columns: 44px minmax(0, 1fr);
+    height: auto;
+    min-height: 64px;
+    padding: 8px 14px;
+  }
+
+  .desktop-brand-zone {
+    min-width: 0;
+  }
+
+  .brand-mark {
+    justify-items: start;
+    line-height: 1;
+  }
+
+  .brand-mark strong,
+  .brand-mark span {
+    text-align: left;
+  }
+
+  .brand-mark strong {
+    color: var(--navy);
+    font-size: clamp(1.05rem, 5vw, 1.45rem);
+  }
+
+  .brand-mark span {
+    color: var(--navy);
+    font-size: clamp(0.56rem, 2.4vw, 0.72rem);
+  }
+
+  .desktop-search,
+  .desktop-kakao-cta {
+    display: none !important;
+  }
+
+  .mobile-menu {
+    border-radius: 0;
+    left: 0;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    right: 0;
+    top: 64px;
+  }
+
+  .mobile-menu a {
+    color: var(--navy);
+    font-size: 0.95rem;
+    padding: 13px 16px;
+  }
+
+  .hero-section--poster {
+    background: var(--navy);
+    display: grid;
+    min-height: 560px;
+    overflow: hidden;
+  }
+
+  .hero-section--poster::before {
+    background-image: var(--hero-image);
+    background-position: center;
+    background-size: cover;
+    content: "";
+    inset: 0;
+    opacity: 0.34;
+    position: absolute;
+  }
+
+  .poster-copy {
+    color: #ffffff;
+    padding: 28px 20px 18px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+  }
+
+  .poster-kicker {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    color: #ffffff;
+    font-size: 0.92rem;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+  }
+
+  .poster-subtitle {
+    color: #ffffff;
+    font-size: 0.86rem;
+    margin: 0 0 10px;
+  }
+
+  .poster-copy h1 {
+    color: #ffffff;
+    font-size: clamp(2.05rem, 12vw, 3.15rem);
+    line-height: 1.04;
+    margin: 0 0 12px;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+  }
+
+  .poster-copy h1 span {
+    color: #ffffff;
+    display: block;
+    font-size: 0.38em;
+    margin-bottom: 10px;
+  }
+
+  .poster-copy .hero-description {
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    max-width: 100%;
+  }
+
+  .poster-info-band {
+    background: #bfe9ff;
+    border-bottom: 1px solid #78cfff;
+    border-top: 1px solid #78cfff;
+    color: var(--navy);
+    margin: 10px 0 0;
+    padding: 18px 20px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+  }
+
+  .poster-info-band strong {
+    color: var(--navy);
+    display: block;
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .poster-info-band p {
+    color: var(--navy);
+    font-size: 0.88rem;
+    font-weight: 780;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .poster-info-band b {
+    display: inline-block;
+    margin: 3px 10px 0 0;
+  }
+
+  .poster-side-image {
+    display: none;
+  }
+
+  .hero-section--poster .hero-dots {
+    align-items: center;
+    background: #ffffff;
+    bottom: 0;
+    box-shadow: 0 -10px 24px rgba(17, 24, 39, 0.08);
+    display: flex;
+    gap: 12px;
+    height: 68px;
+    left: 0;
+    padding: 0 20px;
+    position: absolute;
+    transform: none;
+    width: 100%;
+    z-index: 4;
+  }
+
+  .hero-section--poster .hero-dots button {
+    display: none;
+  }
+
+  .poster-count {
+    color: var(--navy);
+    font-weight: 950;
+  }
+
+  .hero-section--poster .hero-arrow {
+    background: #ffffff;
+    border: 1px solid #d6dce6;
+    bottom: 13px;
+    color: var(--navy);
+    height: 42px;
+    top: auto;
+    transform: none;
+    width: 42px;
+    z-index: 5;
+  }
+
+  .hero-section--poster .hero-arrow--left {
+    left: auto;
+    right: 72px;
+  }
+
+  .hero-section--poster .hero-arrow--right {
+    right: 20px;
+  }
+
+  .pc-intro-section,
+  .pc-academics-section,
+  .pc-values-section,
+  .pc-video-section,
+  .pc-final-cta,
+  .camp-intro-page,
+  .schedule-page,
+  .program-detail-page,
+  .apply-page--plain,
+  .admin-page {
+    max-width: none;
+    padding-left: 18px;
+    padding-right: 18px;
+    width: 100%;
+  }
+
+  .pc-section-heading h2,
+  .board-hero h1,
+  .apply-hero--center h1,
+  .partnership-hero h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1.12;
+  }
+
+  .home-program-info,
+  .fact-grid,
+  .pc-program-grid,
+  .pc-value-layout,
+  .team-card-grid-simple,
+  .team-card-grid-simple--two,
+  .consult-card-row,
+  .consult-card-row--two {
+    grid-template-columns: 1fr;
+  }
+
+  .home-program-info .period-card,
+  .fact-card {
+    min-height: auto;
+  }
+
+  .fact-grid {
+    gap: 10px;
+  }
+
+  .period-card {
+    grid-template-columns: 34px minmax(0, 1fr) 20px;
+    padding: 18px 16px;
+  }
+
+  .period-card strong {
+    font-size: 1.12rem;
+    word-break: keep-all;
+  }
+
+  .partnership-hero {
+    gap: 22px;
+    padding: 24px 0 30px;
+  }
+
+  .partnership-hero p {
+    font-size: 0.95rem;
+    line-height: 1.68;
+  }
+
+  .partner-logo-grid {
+    gap: 10px;
+    grid-template-columns: 1fr;
+  }
+
+  .partner-logo {
+    height: 86px;
+  }
+
+  .partner-logo--unr {
+    font-size: 3rem;
+  }
+
+  .board-hero {
+    padding: 26px 0 36px;
+  }
+
+  .board-search {
+    grid-template-columns: minmax(0, 1fr) 70px;
+    margin: 18px 0;
+  }
+
+  .board-search input,
+  .board-search span {
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .board-table {
+    border-top-width: 1px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .board-table__head,
+  .board-table__row,
+  .board-table__row--expandable summary,
+  .faq-table .board-table__head,
+  .faq-table .board-table__row,
+  .faq-table .board-table__row--expandable summary {
+    grid-template-columns: 48px minmax(82px, 0.34fr) minmax(190px, 1fr) 88px;
+    min-width: 520px;
+  }
+
+  .faq-table .board-table__head,
+  .faq-table .board-table__row,
+  .faq-table .board-table__row--expandable summary {
+    grid-template-columns: 48px minmax(220px, 1fr) 96px;
+  }
+
+  .board-table__head,
+  .board-table__row--expandable summary {
+    padding: 12px 8px;
+  }
+
+  .board-table__row strong {
+    font-size: 0.94rem;
+    line-height: 1.4;
+  }
+
+  .board-table__row--expandable .board-row-detail,
+  .faq-table .board-table__row--expandable .board-row-detail {
+    min-width: 520px;
+    padding: 16px 18px;
+  }
+
+  .board-table__row--expandable .board-row-detail p {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    white-space: normal;
+  }
+
+  .gallery-board-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-card img {
+    height: 210px;
+  }
+
+  .tuition-detail-box {
+    overflow-x: auto;
+  }
+
+  .tuition-price-banner {
+    margin: 10px 12px 24px;
+  }
+
+  .tuition-inclusion,
+  .tuition-discount {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .tuition-discount table {
+    min-width: 560px;
+  }
+
+  .apply-page--plain {
+    padding-bottom: 44px;
+    padding-top: 28px;
+  }
+
+  .apply-hero--center {
+    margin-bottom: 28px;
+    padding-bottom: 34px;
+  }
+
+  .application-form--plain {
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+
+  .application-form--plain input,
+  .application-form--plain select,
+  .application-form--plain textarea {
+    width: 100%;
+  }
+
+  .application-form--plain .submit-button {
+    width: 100%;
+  }
+
+  .apply-stepper {
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .step-item span {
+    font-size: 0.72rem;
+  }
+
+  .agreement-box {
+    max-height: 230px;
+  }
+
+  .application-table-row {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-photo-hero img {
+    height: 250px;
+  }
+
+  .schedule-photo-hero div {
+    padding: 34px 20px;
+  }
+
+  .timetable-week {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .timetable-week__label {
+    font-size: 0.86rem;
+    min-height: 132px;
+    writing-mode: vertical-rl;
+  }
+
+  .timetable-grid {
+    grid-template-columns: 76px repeat(var(--day-count), minmax(118px, 1fr));
+    min-width: 620px;
+  }
+
+  .timetable-grid strong,
+  .timetable-grid span,
+  .timetable-grid p {
+    font-size: 0.82rem;
+    min-height: 54px;
+    padding: 8px;
+  }
+
+  .admin-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .admin-list-item {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-application-grid {
+    grid-template-columns: 1fr;
+  }
+}
