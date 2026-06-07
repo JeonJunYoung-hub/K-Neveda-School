@@ -21,22 +21,22 @@ export function CampIntroPage() {
             함께 연결하는 캠프입니다.
           </h1>
           <p>
-            미국 네바다 DRI(Desert Research Institute, 사막연구소)에서 첨단 장비와 현직
-            과학자 멘토링을 기반으로 실전 연구를 경험하는 7박 9일 집중 프로그램입니다.
+            K-Nevada-School은 미국 네바다 DRI(Desert Research Institute, 사막연구소)의 연구 현장과 UNR, UNLV 대학 캠퍼스 경험을 연결해 학생들이 현직 과학자 멘토링, 실험, 데이터 분석, 발표를 하나의 흐름으로 경험하는 7박 9일 집중 프로그램입니다.
           </p>
           <p>
-            DRI STEM Lab 3일 집중, 후버댐과 그랜드캐년 종일 견학, Drone AI 워크숍,
-            BattleBots Destruct-A-Thon 현장 관람까지 하나의 진로 탐색 흐름으로 설계했습니다.
+            DRI STEM Lab 3일 집중 과정, 후버댐과 그랜드캐년 필드러닝, Drone AI 워크숍, BattleBots Destruct-A-Thon 현장 관람까지 학생의 질문이 연구자의 피드백과 글로벌 진로 로드맵으로 이어지도록 설계했습니다.
           </p>
         </div>
-        <aside aria-label="K-Nevada 핵심 가치">
-          <strong>K-Nevada Partnership</strong>
-          <div className="infinity-values">
-            <span>Inquiry</span>
-            <span>Integrity</span>
-            <span>Respect</span>
+        <aside className="partner-logo-card" aria-label="K-Nevada 파트너십">
+          <strong>네바다 주립 연구기관 및 대학이 함께 합니다.</strong>
+          <div className="partner-logo-grid">
+            <span className="partner-logo partner-logo--unr">N</span>
+            <span className="partner-logo partner-logo--unlv">UNLV</span>
+            <span className="partner-logo partner-logo--dri">
+              <img alt="DRI Desert Research Institute" src="https://www.dri.edu/wp-content/uploads/DRI-logo-taglineWEB2.png" />
+            </span>
           </div>
-          <p>학생의 질문, 연구자의 피드백, 글로벌 진로 로드맵을 하나로 묶습니다.</p>
+          <p>UNR x UNLV x DRI</p>
         </aside>
       </div>
 
