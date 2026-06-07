@@ -83,6 +83,23 @@ function readAdminSession(): AdminSession | null {
   }
 }
 
+function formatDate(value?: string) {
+  if (!value) {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  const parsed = new Date(value);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString().slice(0, 10);
+  }
+
+  return value.split(' ')[0] || value;
+}
+
+function orderedNumber(index: number) {
+  return String(index + 1).padStart(2, '0');
+}
+
 export function AdminPage() {
   const setup = getFirebaseSetupStatus();
   const [activeTab, setActiveTab] = useState<AdminTab>('notices');
@@ -114,7 +131,11 @@ export function AdminPage() {
     setNotices(noticeItems.sort((a, b) => (b.date || '').localeCompare(a.date || '')));
     setFaqs(faqItems.sort((a, b) => (b.number || '').localeCompare(a.number || '')));
     setMediaItems(galleryItems.reverse());
-    setApplications(applicationItems.sort((a, b) => (b.submittedAt || '').localeCompare(a.submittedAt || '')));
+    setApplications(
+      applicationItems
+        .filter((item) => item.studentName !== 'diagnostic' && item.id !== 'diagnostic-delete-me')
+        .sort((a, b) => (b.submittedAt || '').localeCompare(a.submittedAt || '')),
+    );
   };
 
   useEffect(() => {
@@ -122,7 +143,9 @@ export function AdminPage() {
       return;
     }
 
-    refreshData(session.idToken).catch((error) => setFeedback(error instanceof Error ? error.message : '관리 데이터를 불러오지 못했습니다.'));
+    refreshData(session.idToken).catch((error) =>
+      setFeedback(error instanceof Error ? error.message : '관리 데이터를 불러오지 못했습니다.'),
+    );
   }, [session]);
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
@@ -202,7 +225,7 @@ export function AdminPage() {
     const saved = await createDocument('faqs', item, idToken);
     setFaqs((items) => [saved as FaqItem, ...items]);
     form.reset();
-    setFeedback('상담문의 글이 등록되었습니다.');
+    setFeedback('상담문의 답변글이 등록되었습니다.');
   };
 
   const handleFaqUpdate = async (event: FormEvent<HTMLFormElement>, id: string) => {
@@ -215,7 +238,7 @@ export function AdminPage() {
     await updateDocument('faqs', id, patch, idToken);
     setFaqs((items) => items.map((item) => (item.id === id ? { ...item, ...patch } : item)));
     setEditingFaqId(null);
-    setFeedback('상담문의 글이 수정되었습니다.');
+    setFeedback('상담문의 답변글이 수정되었습니다.');
   };
 
   const handleMediaCreate = async (event: FormEvent<HTMLFormElement>) => {
@@ -354,202 +377,122 @@ export function AdminPage() {
       </nav>
 
       {activeTab === 'notices' && (
-        <AdminPanel
-          emptyText="등록된 공지사항이 없습니다."
-          form={
-            <form className="admin-write-form" onSubmit={handleNoticeCreate}>
-              <label>
-                <span>구분</span>
-                <input name="label" placeholder="공지" type="text" />
-              </label>
-              <label>
-                <span>제목</span>
-                <input name="title" required type="text" />
-              </label>
-              <label className="admin-write-form__wide">
-                <span>내용</span>
-                <textarea name="description" required rows={5} />
-              </label>
-              <button type="submit">
-                <PenLine aria-hidden="true" />
-                공지 등록
-              </button>
-            </form>
-          }
-          items={notices.map((notice) => (
-            <article className="admin-list-item" key={notice.id}>
-              {editingNoticeId === notice.id ? (
-                <form className="admin-inline-form" onSubmit={(event) => handleNoticeUpdate(event, notice.id)}>
-                  <input defaultValue={notice.label} name="label" />
-                  <input defaultValue={notice.title} name="title" />
-                  <textarea defaultValue={notice.description} name="description" rows={4} />
-                  <button type="submit">수정 저장</button>
-                  <button onClick={() => setEditingNoticeId(null)} type="button">취소</button>
-                </form>
-              ) : (
-                <div>
-                  <span>{notice.label} · {notice.date}</span>
+        <AdminBoard title="공지사항 관리" form={<NoticeForm onSubmit={handleNoticeCreate} />}>
+          <div className="board-table admin-board-table">
+            <BoardHead columns={['번호', '구분', '제목', '등록일']} />
+            {notices.length > 0 ? notices.map((notice, index) => (
+              <details className="board-table__row board-table__row--expandable" key={notice.id}>
+                <summary>
+                  <span>{notice.number || orderedNumber(index)}</span>
+                  <span>{notice.label || '공지'}</span>
                   <strong>{notice.title}</strong>
-                  <p>{notice.description}</p>
+                  <time>{formatDate(notice.date)}</time>
+                </summary>
+                <div className="board-row-detail admin-board-detail">
+                  {editingNoticeId === notice.id ? (
+                    <NoticeForm item={notice} onCancel={() => setEditingNoticeId(null)} onSubmit={(event) => handleNoticeUpdate(event, notice.id)} />
+                  ) : (
+                    <>
+                      <p>{notice.description}</p>
+                      <AdminActions onDelete={() => handleDelete('notices', notice.id)} onEdit={() => setEditingNoticeId(notice.id)} />
+                    </>
+                  )}
                 </div>
-              )}
-              <div className="admin-list-item__actions">
-                <button onClick={() => setEditingNoticeId(notice.id)} type="button">수정</button>
-                <button onClick={() => handleDelete('notices', notice.id)} type="button">
-                  <Trash2 aria-hidden="true" />
-                  삭제
-                </button>
-              </div>
-            </article>
-          ))}
-          title="공지사항 관리"
-        />
+              </details>
+            )) : <p className="admin-empty">등록된 공지사항이 없습니다.</p>}
+          </div>
+        </AdminBoard>
       )}
 
       {activeTab === 'faqs' && (
-        <AdminPanel
-          emptyText="등록된 상담문의 글이 없습니다."
-          form={
-            <form className="admin-write-form" onSubmit={handleFaqCreate}>
-              <label>
-                <span>질문</span>
-                <input name="title" required type="text" />
-              </label>
-              <label>
-                <span>답변</span>
-                <textarea name="answer" required rows={5} />
-              </label>
-              <button type="submit">
-                <PenLine aria-hidden="true" />
-                FAQ 등록
-              </button>
-            </form>
-          }
-          items={faqs.map((item) => (
-            <article className="admin-list-item" key={item.id}>
-              {editingFaqId === item.id ? (
-                <form className="admin-inline-form" onSubmit={(event) => handleFaqUpdate(event, item.id)}>
-                  <input defaultValue={item.title} name="title" />
-                  <textarea defaultValue={item.answer} name="answer" rows={4} />
-                  <button type="submit">수정 저장</button>
-                  <button onClick={() => setEditingFaqId(null)} type="button">취소</button>
-                </form>
-              ) : (
-                <div>
-                  <span>FAQ {item.number}</span>
+        <AdminBoard title="상담문의 답변 관리" form={<FaqForm onSubmit={handleFaqCreate} />}>
+          <div className="board-table admin-board-table faq-table">
+            <BoardHead columns={['번호', '질문', '답변']} />
+            {faqs.length > 0 ? faqs.map((item, index) => (
+              <details className="board-table__row board-table__row--expandable" key={item.id}>
+                <summary>
+                  <span>{item.number || orderedNumber(index)}</span>
                   <strong>{item.title}</strong>
-                  <p>{item.answer}</p>
+                  <span className="board-row-toggle">답변 보기</span>
+                </summary>
+                <div className="board-row-detail admin-board-detail">
+                  {editingFaqId === item.id ? (
+                    <FaqForm item={item} onCancel={() => setEditingFaqId(null)} onSubmit={(event) => handleFaqUpdate(event, item.id)} />
+                  ) : (
+                    <>
+                      <p>{item.answer || '아직 등록된 답변이 없습니다.'}</p>
+                      <AdminActions onDelete={() => handleDelete('faqs', item.id)} onEdit={() => setEditingFaqId(item.id)} />
+                    </>
+                  )}
                 </div>
-              )}
-              <div className="admin-list-item__actions">
-                <button onClick={() => setEditingFaqId(item.id)} type="button">수정</button>
-                <button onClick={() => handleDelete('faqs', item.id)} type="button">
-                  <Trash2 aria-hidden="true" />
-                  삭제
-                </button>
-              </div>
-            </article>
-          ))}
-          title="상담문의 관리"
-        />
+              </details>
+            )) : <p className="admin-empty">등록된 상담문의 글이 없습니다.</p>}
+          </div>
+        </AdminBoard>
       )}
 
       {activeTab === 'media' && (
-        <AdminPanel
-          emptyText="등록된 영상 및 갤러리 글이 없습니다."
-          form={
-            <form className="admin-write-form" onSubmit={handleMediaCreate}>
-              <label>
-                <span>제목</span>
-                <input name="title" required type="text" />
-              </label>
-              <label>
-                <span>이미지 주소</span>
-                <input name="imageUrl" placeholder="https://..." required type="url" />
-              </label>
-              <label className="admin-write-form__wide">
-                <span>설명</span>
-                <textarea name="description" required rows={5} />
-              </label>
-              <button type="submit">
-                <PenLine aria-hidden="true" />
-                갤러리 등록
-              </button>
-            </form>
-          }
-          items={mediaItems.map((item) => (
-            <article className="admin-list-item admin-list-item--media" key={item.id}>
-              <img alt="" src={item.imageUrl} />
-              {editingMediaId === item.id ? (
-                <form className="admin-inline-form" onSubmit={(event) => handleMediaUpdate(event, item.id)}>
-                  <input defaultValue={item.title} name="title" />
-                  <input defaultValue={item.imageUrl} name="imageUrl" type="url" />
-                  <textarea defaultValue={item.description} name="description" rows={4} />
-                  <button type="submit">수정 저장</button>
-                  <button onClick={() => setEditingMediaId(null)} type="button">취소</button>
-                </form>
-              ) : (
-                <div>
-                  <span>Gallery</span>
+        <AdminBoard title="영상 및 갤러리 관리" form={<MediaForm onSubmit={handleMediaCreate} />}>
+          <div className="board-table admin-board-table media-admin-table">
+            <BoardHead columns={['번호', '구분', '제목', '등록일']} />
+            {mediaItems.length > 0 ? mediaItems.map((item, index) => (
+              <details className="board-table__row board-table__row--expandable" key={item.id}>
+                <summary>
+                  <span>{orderedNumber(index)}</span>
+                  <span>갤러리</span>
                   <strong>{item.title}</strong>
-                  <p>{item.description}</p>
+                  <time>-</time>
+                </summary>
+                <div className="board-row-detail admin-board-detail admin-media-detail">
+                  {editingMediaId === item.id ? (
+                    <MediaForm item={item} onCancel={() => setEditingMediaId(null)} onSubmit={(event) => handleMediaUpdate(event, item.id)} />
+                  ) : (
+                    <>
+                      {item.imageUrl && <img alt="" src={item.imageUrl} />}
+                      <p>{item.description}</p>
+                      <AdminActions onDelete={() => handleDelete('media', item.id)} onEdit={() => setEditingMediaId(item.id)} />
+                    </>
+                  )}
                 </div>
-              )}
-              <div className="admin-list-item__actions">
-                <button onClick={() => setEditingMediaId(item.id)} type="button">수정</button>
-                <button onClick={() => handleDelete('media', item.id)} type="button">
-                  <Trash2 aria-hidden="true" />
-                  삭제
-                </button>
-              </div>
-            </article>
-          ))}
-          title="영상 및 갤러리 관리"
-        />
+              </details>
+            )) : <p className="admin-empty">등록된 영상 및 갤러리 글이 없습니다.</p>}
+          </div>
+        </AdminBoard>
       )}
 
       {activeTab === 'applications' && (
-        <AdminPanel
-          emptyText="저장된 캠프 신청이 아직 없습니다."
-          items={applications.map((application) => (
-            <article className="admin-list-item admin-list-item--application" key={application.id}>
-              <div>
-                <span>{application.submittedAt} · {application.status || '접수'}</span>
-                <strong>{application.studentName || '이름 미입력'} · {application.grade}</strong>
-                <dl>
-                  <div><dt>영문명</dt><dd>{application.englishName || '-'}</dd></div>
-                  <div><dt>생년월일</dt><dd>{application.birthDate || '-'}</dd></div>
-                  <div><dt>성별</dt><dd>{application.gender || '-'}</dd></div>
-                  <div><dt>보호자</dt><dd>{application.fatherName || application.motherName || '-'}</dd></div>
-                  <div><dt>연락처</dt><dd>{application.parentPhone || '-'}</dd></div>
-                  <div><dt>이메일</dt><dd>{application.parentEmail || '-'}</dd></div>
-                  <div><dt>주소</dt><dd>{application.address || '-'}</dd></div>
-                  <div><dt>알레르기</dt><dd>{application.allergyStatus} {application.allergyMemo}</dd></div>
-                  <div><dt>개인 특이사항</dt><dd>{application.personalNeedsStatus} {application.personalNeedsMemo}</dd></div>
-                  <div><dt>건강</dt><dd>{application.healthStatus} {application.healthMemo}</dd></div>
-                  <div><dt>신청경로</dt><dd>{application.referral || '-'}</dd></div>
-                </dl>
-                <form className="admin-status-form" onSubmit={(event) => handleApplicationStatus(event, application.id)}>
-                  <select defaultValue={application.status || '접수'} name="status">
-                    <option>접수</option>
-                    <option>확인 중</option>
-                    <option>연락 완료</option>
-                    <option>등록 확정</option>
-                    <option>보류</option>
-                  </select>
-                  <button type="submit">상태 저장</button>
-                </form>
-              </div>
-              <div className="admin-list-item__actions">
-                <button onClick={() => handleDelete('applications', application.id)} type="button">
-                  <Trash2 aria-hidden="true" />
-                  삭제
-                </button>
-              </div>
-            </article>
-          ))}
-          title="캠프 신청 관리"
-        />
+        <AdminBoard title="캠프 신청 관리">
+          <div className="board-table admin-board-table">
+            <BoardHead columns={['번호', '구분', '제목', '등록일']} />
+            {applications.length > 0 ? applications.map((application, index) => (
+              <details className="board-table__row board-table__row--expandable" key={application.id}>
+                <summary>
+                  <span>{orderedNumber(index)}</span>
+                  <span>신청</span>
+                  <strong>신청 K-Nevada-School {application.studentName || '이름 미입력'}</strong>
+                  <time>{formatDate(application.submittedAt)}</time>
+                </summary>
+                <div className="board-row-detail admin-board-detail">
+                  <ApplicationDetail application={application} />
+                  <form className="admin-status-form" onSubmit={(event) => handleApplicationStatus(event, application.id)}>
+                    <select defaultValue={application.status || '접수'} name="status">
+                      <option>접수</option>
+                      <option>확인 중</option>
+                      <option>연락 완료</option>
+                      <option>등록 확정</option>
+                      <option>보류</option>
+                    </select>
+                    <button type="submit">상태 저장</button>
+                    <button onClick={() => handleDelete('applications', application.id)} type="button">
+                      <Trash2 aria-hidden="true" />
+                      삭제
+                    </button>
+                  </form>
+                </div>
+              </details>
+            )) : <p className="admin-empty">저장된 캠프 신청이 아직 없습니다.</p>}
+          </div>
+        </AdminBoard>
       )}
     </section>
   );
@@ -575,24 +518,155 @@ function AdminSetupNotice() {
   );
 }
 
-function AdminPanel({
-  emptyText,
-  form,
-  items,
-  title,
-}: {
-  emptyText: string;
-  form?: ReactNode;
-  items: ReactNode[];
-  title: string;
-}) {
+function AdminBoard({ children, form, title }: { children: ReactNode; form?: ReactNode; title: string }) {
   return (
     <section className="admin-panel">
       <h2>{title}</h2>
       {form}
-      <div className="admin-list">
-        {items.length > 0 ? items : <p className="admin-empty">{emptyText}</p>}
-      </div>
+      {children}
+    </section>
+  );
+}
+
+function BoardHead({ columns }: { columns: string[] }) {
+  return (
+    <div className="board-table__head">
+      {columns.map((column) => <span key={column}>{column}</span>)}
+    </div>
+  );
+}
+
+function AdminActions({ onDelete, onEdit }: { onDelete: () => void; onEdit: () => void }) {
+  return (
+    <div className="admin-list-item__actions">
+      <button onClick={onEdit} type="button">수정</button>
+      <button onClick={onDelete} type="button">
+        <Trash2 aria-hidden="true" />
+        삭제
+      </button>
+    </div>
+  );
+}
+
+function NoticeForm({ item, onCancel, onSubmit }: { item?: NoticeItem; onCancel?: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+  return (
+    <form className="admin-write-form" onSubmit={onSubmit}>
+      <label>
+        <span>구분</span>
+        <input defaultValue={item?.label || ''} name="label" placeholder="공지" type="text" />
+      </label>
+      <label>
+        <span>제목</span>
+        <input defaultValue={item?.title || ''} name="title" required type="text" />
+      </label>
+      <label className="admin-write-form__wide">
+        <span>내용</span>
+        <textarea defaultValue={item?.description || ''} name="description" required rows={5} />
+      </label>
+      <button type="submit">
+        <PenLine aria-hidden="true" />
+        {item ? '수정 저장' : '공지 등록'}
+      </button>
+      {onCancel && <button onClick={onCancel} type="button">취소</button>}
+    </form>
+  );
+}
+
+function FaqForm({ item, onCancel, onSubmit }: { item?: FaqItem; onCancel?: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+  return (
+    <form className="admin-write-form" onSubmit={onSubmit}>
+      <label>
+        <span>질문</span>
+        <input defaultValue={item?.title || ''} name="title" required type="text" />
+      </label>
+      <label className="admin-write-form__wide">
+        <span>답변글</span>
+        <textarea defaultValue={item?.answer || ''} name="answer" required rows={5} />
+      </label>
+      <button type="submit">
+        <PenLine aria-hidden="true" />
+        {item ? '답변 수정' : '답변 등록'}
+      </button>
+      {onCancel && <button onClick={onCancel} type="button">취소</button>}
+    </form>
+  );
+}
+
+function MediaForm({ item, onCancel, onSubmit }: { item?: GalleryItem; onCancel?: () => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+  return (
+    <form className="admin-write-form" onSubmit={onSubmit}>
+      <label>
+        <span>제목</span>
+        <input defaultValue={item?.title || ''} name="title" required type="text" />
+      </label>
+      <label>
+        <span>이미지 주소</span>
+        <input defaultValue={item?.imageUrl || ''} name="imageUrl" placeholder="https://..." required type="url" />
+      </label>
+      <label className="admin-write-form__wide">
+        <span>설명</span>
+        <textarea defaultValue={item?.description || ''} name="description" required rows={5} />
+      </label>
+      <button type="submit">
+        <PenLine aria-hidden="true" />
+        {item ? '수정 저장' : '갤러리 등록'}
+      </button>
+      {onCancel && <button onClick={onCancel} type="button">취소</button>}
+    </form>
+  );
+}
+
+function ApplicationDetail({ application }: { application: SavedApplication }) {
+  return (
+    <div className="admin-application-detail">
+      <DetailSection
+        items={[
+          ['이름', application.studentName],
+          ['여권상영문', application.englishName],
+          ['생년월일', application.birthDate],
+          ['성별', application.gender],
+          ['학년', application.grade],
+          ['참가캠프', application.camp],
+        ]}
+        title="학생정보"
+      />
+      <DetailSection
+        items={[
+          ['아버지성함', application.fatherName],
+          ['어머니성함', application.motherName],
+          ['연락처', application.parentPhone],
+          ['이메일', application.parentEmail],
+          ['주소', application.address],
+        ]}
+        title="보호자정보"
+      />
+      <DetailSection
+        items={[
+          ['알레르기 유무', `${application.allergyStatus || '-'} ${application.allergyMemo || ''}`],
+          ['개인 특이사항', `${application.personalNeedsStatus || '-'} ${application.personalNeedsMemo || ''}`],
+          ['건강상 문제', `${application.healthStatus || '-'} ${application.healthMemo || ''}`],
+          ['거주지역', application.residence],
+          ['신청경로', application.referral],
+          ['상태', application.status || '접수'],
+        ]}
+        title="건강 및 확인사항"
+      />
+    </div>
+  );
+}
+
+function DetailSection({ items, title }: { items: Array<[string, string | undefined]>; title: string }) {
+  return (
+    <section className="admin-detail-section">
+      <h3>{title}</h3>
+      <dl>
+        {items.map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{value || '-'}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }
