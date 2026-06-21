@@ -4,6 +4,21 @@ Modern camp promotion website foundation built with React, TypeScript, and Vite.
 
 The current draft is a mobile-first camp promotion site for the 2027 Nevada AI STEM Global Winter Camp. Final branding, photos, phone number, Kakao channel, and detailed application flow can be replaced later without changing the core project architecture.
 
+## Live Site
+
+- Production: https://kstemschool.com
+- GitHub: https://github.com/JeonJunYoung-hub/K-Neveda-School
+
+## Screenshots
+
+### Homepage Overview
+
+![K-Nevada STEM Camp homepage](docs/screenshots/home.svg)
+
+### Program Hero
+
+![BattleBots program hero](docs/screenshots/battlebots.svg)
+
 ## Tech Stack
 
 - React
