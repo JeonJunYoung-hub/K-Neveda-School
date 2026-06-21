@@ -13,11 +13,15 @@ The current draft is a mobile-first camp promotion site for the 2027 Nevada AI S
 
 ### Homepage Overview
 
-![K-Nevada STEM Camp homepage](docs/screenshots/home.svg)
+![K-Nevada STEM Camp homepage](docs/screenshots/home.jpg)
 
 ### Program Hero
 
-![BattleBots program hero](docs/screenshots/battlebots.svg)
+![BattleBots program hero](docs/screenshots/battlebots.jpg)
+
+### Consultation FAQ
+
+![Consultation FAQ page](docs/screenshots/faq.jpg)
 
 ## Tech Stack
 
