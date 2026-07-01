@@ -68,6 +68,50 @@
   white-space: pre-line;
 }
 
+.board-detail-card {
+  background: #f2fbff;
+  border: 1px solid #bfe9ff;
+  border-left: 5px solid #0077c8;
+  display: grid;
+  gap: 18px;
+  padding: 24px 28px;
+}
+
+.board-detail-card header,
+.board-detail-card section {
+  display: grid;
+  gap: 8px;
+}
+
+.board-detail-card header {
+  border-bottom: 1px solid #d7efff;
+  padding-bottom: 16px;
+}
+
+.board-detail-card header span,
+.board-detail-card b {
+  color: #0077c8;
+  font-size: 0.86rem;
+  font-weight: 1000;
+}
+
+.board-detail-card header strong {
+  color: var(--navy);
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+
+.board-detail-card header time {
+  color: #5d708c;
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.board-detail-card--qa section + section {
+  border-top: 1px solid #d7efff;
+  padding-top: 18px;
+}
+
 .faq-table .board-table__row--expandable summary {
   grid-template-columns: 76px minmax(180px, 0.42fr) minmax(0, 1fr);
 }

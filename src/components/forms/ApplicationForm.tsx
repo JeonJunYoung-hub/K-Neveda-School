@@ -118,9 +118,10 @@ export function ApplicationForm() {
       try {
         await createDocument('applications', application);
         setSaveMessage('신청 정보가 접수되었습니다.');
-      } catch {
+      } catch (error) {
         saveLocal();
-        setSaveMessage('Firebase 저장에 실패해 현재 브라우저에 임시 저장했습니다.');
+        const message = error instanceof Error ? error.message : '알 수 없는 Firebase 오류입니다.';
+        setSaveMessage(`Firebase 저장 실패: ${message}`);
       }
     } else {
       saveLocal();

@@ -15,6 +15,15 @@ type SignInResponse = {
   expiresIn: string;
   idToken: string;
   localId: string;
+  refreshToken: string;
+};
+
+type RefreshTokenResponse = {
+  access_token?: string;
+  expires_in: string;
+  id_token?: string;
+  refresh_token?: string;
+  user_id?: string;
 };
 
 const firebaseConfig = {
@@ -92,8 +101,8 @@ function fromFirestoreDocument<T>(document: FirestoreDocument): T & { id: string
     Object.entries(document.fields || {}).map(([key, value]) => [key, decodeFirestoreValue(value)]),
   );
   return {
-    id: document.name.split('/').pop() || '',
     ...values,
+    id: document.name.split('/').pop() || '',
   } as T & { id: string };
 }
 
@@ -104,29 +113,13 @@ function getHeaders(idToken?: string) {
   };
 }
 
-function describeFirebaseError(errorText: string) {
-  const codeMatch = errorText.match(/"message"\s*:\s*"([^"]+)"/);
-  const code = codeMatch?.[1] || errorText;
-
-  const messages: Record<string, string> = {
-    EMAIL_NOT_FOUND: 'Firebase Authentication 사용자 목록에 이 이메일이 없습니다.',
-    INVALID_LOGIN_CREDENTIALS: 'Firebase 이메일/비밀번호가 일치하지 않거나, 이 계정에 이메일/비밀번호 제공업체가 연결되어 있지 않습니다.',
-    INVALID_PASSWORD: '비밀번호가 Firebase 사용자 비밀번호와 일치하지 않습니다.',
-    USER_DISABLED: 'Firebase에서 이 사용자가 비활성화되어 있습니다.',
-    OPERATION_NOT_ALLOWED: 'Firebase Authentication에서 이메일/비밀번호 로그인이 꺼져 있습니다.',
-    API_KEY_INVALID: 'Netlify에 입력한 Firebase API key가 올바르지 않습니다.',
-  };
-
-  return messages[code] ? `${messages[code]} (${code})` : `Firebase 오류: ${code}`;
-}
-
 async function assertOk(response: Response) {
   if (response.ok) {
     return;
   }
 
   const text = await response.text();
-  throw new Error(describeFirebaseError(text || response.statusText));
+  throw new Error(text || response.statusText);
 }
 
 export async function signInAdmin(email: string, password: string): Promise<SignInResponse> {
@@ -137,6 +130,16 @@ export async function signInAdmin(email: string, password: string): Promise<Sign
   });
   await assertOk(response);
   return response.json() as Promise<SignInResponse>;
+}
+
+export async function refreshAdminToken(refreshToken: string): Promise<RefreshTokenResponse> {
+  const response = await fetch(`https://securetoken.googleapis.com/v1/token?key=${firebaseConfig.apiKey}`, {
+    body: JSON.stringify({ grant_type: 'refresh_token', refresh_token: refreshToken }),
+    headers: getHeaders(),
+    method: 'POST',
+  });
+  await assertOk(response);
+  return response.json() as Promise<RefreshTokenResponse>;
 }
 
 export async function listDocuments<T>(collection: string, idToken?: string): Promise<Array<T & { id: string }>> {
