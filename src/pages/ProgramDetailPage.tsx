@@ -16,7 +16,7 @@ export function ProgramDetailPage({ slug }: ProgramDetailPageProps) {
         홈으로
       </a>
 
-      <article className="program-detail-hero">
+      <article className={`program-detail-hero${detail.id === 'tuition' ? ' program-detail-hero--banner' : ''}`}>
         <img alt="" src={detail.imageUrl} />
         <div className="program-detail-hero__copy">
           <p className="eyebrow">{detail.eyebrow}</p>

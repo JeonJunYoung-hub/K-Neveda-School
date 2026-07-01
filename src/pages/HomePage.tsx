@@ -1,15 +1,16 @@
-import { CalendarDays, ChevronRight, ClipboardPenLine, Sparkles } from 'lucide-react';
+import { CalendarDays, ChevronRight, ClipboardPenLine, Microscope, ShieldCheck, Sparkles } from 'lucide-react';
 import { HeroSection } from '../components/sections/HeroSection';
 import { ButtonLink } from '../components/ui/ButtonLink';
 import { campContent } from '../data/campContent';
+
+// 홈페이지 배너 사진들
 
 const imageUrls = {
   lab:
     'https://images.pexels.com/photos/6208709/pexels-photo-6208709.jpeg?cs=srgb&dl=pexels-cottonbro-6208709.jpg&fm=jpg',
   canyon:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg/1280px-Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg',
-  drone:
-    'https://images.pexels.com/photos/5734963/pexels-photo-5734963.jpeg?cs=srgb&dl=pexels-ramazannatass-5734963.jpg&fm=jpg',
+  drone: '/media/drone-hero.png',
   lecture:
     'https://images.pexels.com/photos/8197558/pexels-photo-8197558.jpeg?cs=srgb&dl=pexels-yankrukov-8197558.jpg&fm=jpg',
   mentoring:
@@ -59,7 +60,7 @@ const programTiles = [
   },
   {
     title: '교수진 + 외부 전문가 특강',
-    description: '강민곤, 손영권, 박정원 교수와 게스트 강사가 AI와 STEM 진로를 다룹니다.',
+    description: '교수진과 게스트 강사가 AI와 STEM 진로를 다룹니다.',
     imageUrl: imageUrls.lecture,
     tone: 'image',
   },
@@ -67,6 +68,7 @@ const programTiles = [
 
 const valueBlocks = [
   {
+    icon: Microscope,
     title: '현직 과학자 1:1 멘토링',
     description:
       'DRI 박사진과 UNLV 이공계 멘토가 학생 10명과 직접 프로젝트를 진행하며 질문과 실험을 이끕니다.',
@@ -74,6 +76,7 @@ const valueBlocks = [
     imageUrl: imageUrls.mentoring,
   },
   {
+    icon: ShieldCheck,
     title: 'DRI 수료증 + 진로 로드맵',
     description:
       '공식 수료증, 귀국 후 포트폴리오 피드백, 연 2회 진로 상담으로 캠프 이후까지 이어집니다.',
@@ -81,6 +84,8 @@ const valueBlocks = [
     imageUrl: imageUrls.lab,
   },
 ] as const;
+
+// 홈페이지 배너
 
 export function HomePage() {
   return (
@@ -157,20 +162,25 @@ export function HomePage() {
         </div>
 
         <div className="pc-value-layout">
-          {valueBlocks.map((block) => (
-            <article className="pc-value-block" key={block.title}>
-              <img alt="" src={block.imageUrl} />
-              <div>
-                <h3>{block.title}</h3>
-                <p>{block.description}</p>
-                <ul>
-                  {block.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
+          {valueBlocks.map((block) => {
+            const Icon = block.icon;
+
+            return (
+              <article className="pc-value-block" key={block.title}>
+                <img alt="" src={block.imageUrl} />
+                <div>
+                  <Icon aria-hidden="true" />
+                  <h3>{block.title}</h3>
+                  <p>{block.description}</p>
+                  <ul>
+                    {block.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -215,7 +225,10 @@ export function HomePage() {
       <section className="pc-final-cta" id="contact">
         <div>
           <p className="eyebrow">Apply now</p>
-          <h2>2027 Winter Camp 1기 모집</h2>
+          <h2 className="pc-final-cta__title">
+            <span>K-Nevada-Stem Camp</span>
+            <span>1기 모집</span>
+          </h2>
           <p>정원 10명 소수정예로 운영되며, 접수 순서에 따라 마감됩니다.</p>
         </div>
         <ButtonLink className="apply-cta" href="/apply" variant="primary">

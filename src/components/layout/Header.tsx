@@ -12,10 +12,8 @@ export function Header({ currentPath }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const isHomePage = currentPath === '/';
 
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const query = searchQuery.trim().toLowerCase();
+  const moveToSearchResult = (value: string) => {
+    const query = value.trim().toLowerCase();
     if (!query) {
       return;
     }
@@ -40,6 +38,12 @@ export function Header({ currentPath }: HeaderProps) {
     window.location.href = destination;
   };
 
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    moveToSearchResult(String(formData.get('query') || searchQuery));
+  };
+
   return (
     <header className="site-header" id="top">
       <button
@@ -53,15 +57,19 @@ export function Header({ currentPath }: HeaderProps) {
       </button>
 
       <div className="desktop-brand-zone">
-        <a className="brand-mark" href="/" aria-label={`${siteConfig.name} home`}>
-          <strong>{siteConfig.logoTitle}</strong>
-          <span>{siteConfig.logoSubtitle}</span>
+        <a className="brand-mark" href="/" aria-label={`${siteConfig.logoTitle} 홈`}>
+          <img alt="" className="brand-logo-image" src="/media/stem-camp-logo.png" />
+          <span className="brand-text">
+            <strong>{siteConfig.logoTitle}</strong>
+            <span>{siteConfig.logoSubtitle}</span>
+          </span>
         </a>
       </div>
 
-      <form className="desktop-search" aria-label="검색" onSubmit={handleSearch} role="search">
+      <form className="desktop-search" aria-label="캠프 정보 검색" onSubmit={handleSearch} role="search">
         <input
           aria-label="캠프 정보 검색"
+          name="query"
           onChange={(event) => setSearchQuery(event.target.value)}
           placeholder="캠프 정보를 검색하세요!"
           type="search"
@@ -72,12 +80,12 @@ export function Header({ currentPath }: HeaderProps) {
         </button>
       </form>
 
-      <a className="desktop-kakao-cta" href="/consult">
+      <a className="desktop-kakao-cta" href={siteConfig.contact.kakaoHref} rel="noreferrer" target="_blank">
         <MessageCircle aria-hidden="true" />
         <span>카카오톡 상담</span>
       </a>
 
-      <nav className="desktop-nav" aria-label="Primary navigation">
+      <nav className="desktop-nav" aria-label="주요 메뉴">
         {siteConfig.navigation.map((item) => (
           <a
             className={item.href === '/apply' ? 'desktop-nav__apply' : undefined}
@@ -90,7 +98,7 @@ export function Header({ currentPath }: HeaderProps) {
       </nav>
 
       {isMenuOpen && (
-        <nav className="mobile-menu" aria-label="Primary navigation">
+        <nav className="mobile-menu" aria-label="주요 메뉴">
           {siteConfig.navigation.map((item) => (
             <a
               href={item.href.startsWith('#') && !isHomePage ? `/${item.href}` : item.href}

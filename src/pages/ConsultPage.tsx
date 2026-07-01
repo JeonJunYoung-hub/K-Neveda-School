@@ -2,6 +2,7 @@ import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, MessageCircle, PenLine } from 'lucide-react';
 import { ButtonLink } from '../components/ui/ButtonLink';
+import { siteConfig } from '../config/siteConfig';
 import { createDocument, isFirebaseConfigured, listDocuments } from '../lib/firebaseRest';
 
 type FaqItem = {
@@ -83,8 +84,14 @@ export function ConsultPage() {
       <div className="consult-card-row consult-card-row--two">
         <article>
           <strong>카카오톡 상담</strong>
-          <p>카카오톡채널 [K-Nevada-School]로 학생 학년, 희망 상담 시간, 문의 내용을 보내주세요.</p>
-          <ButtonLink href="https://open.kakao.com/o/REPLACE_WITH_KAKAO_CHAT_CODE" variant="primary">
+          <p>카카오톡채널 [{siteConfig.contact.kakaoDisplay}]로 학생 학년, 희망 상담 시간, 문의 내용을 보내주세요.</p>
+          <ButtonLink
+            className="kakao-chat-button"
+            href={siteConfig.contact.kakaoHref}
+            rel="noreferrer"
+            target="_blank"
+            variant="primary"
+          >
             <MessageCircle aria-hidden="true" />
             <span>카카오톡 상담하기</span>
           </ButtonLink>
@@ -92,7 +99,7 @@ export function ConsultPage() {
         <article>
           <strong>상담 가능 시간</strong>
           <p>모집 기간 중 순차적으로 응답합니다. 남겨주신 문의는 운영팀 확인 후 안내드립니다.</p>
-          <span>카카오톡채널 [K-Nevada-School]</span>
+          <span>카카오톡채널 [{siteConfig.contact.kakaoDisplay}]</span>
         </article>
       </div>
 
@@ -143,8 +150,16 @@ export function ConsultPage() {
                 <span className="board-row-toggle">{item.answer ? '답변 완료' : '답변 대기'}</span>
               </summary>
               <div className="board-row-detail">
-                <p>{item.content || item.title}</p>
-                {item.answer && <p>{item.answer}</p>}
+                <article className="board-detail-card board-detail-card--qa">
+                  <section>
+                    <b>문의 내용</b>
+                    <p>{item.content || item.title}</p>
+                  </section>
+                  <section>
+                    <b>답변</b>
+                    <p>{item.answer || '아직 답변이 등록되지 않았습니다.'}</p>
+                  </section>
+                </article>
               </div>
             </details>
           ))

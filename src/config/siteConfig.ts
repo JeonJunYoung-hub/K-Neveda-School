@@ -1,7 +1,7 @@
 export const siteConfig = {
-  name: 'K-Nevada-School',
-  logoTitle: 'K-Nevada-School',
-  logoSubtitle: 'UNR & DRI Collaboration 1기',
+  name: 'K-Nevada-Stem Camp 국내 최초, 전 과정 영어로 진행되는 AI 사고력 준비 캠프',
+  logoTitle: 'K-Nevada-Stem Camp',
+  logoSubtitle: ' 국내 최초, 전 과정 영어로 진행되는 AI 사고력 준비 캠프',
   primaryAction: {
     label: '캠프 신청하기',
     href: '/apply',
@@ -19,9 +19,9 @@ export const siteConfig = {
   contact: {
     phoneHref: 'tel:+821000000000',
     phoneDisplay: '010-0000-0000',
-    kakaoHref: 'https://open.kakao.com/o/REPLACE_WITH_KAKAO_CHAT_CODE',
-    kakaoDisplay: 'Kakao ID 준비중',
+    kakaoHref: 'https://pf.kakao.com/_yuZXX',
+    kakaoDisplay: 'K-NV-Stem',
     applicationEmail: 'apply@k-nevada-camp.com',
   },
-  footerNote: '네바다 주립대학 UNR · UNLV · 네바다 주립연구소 DRI 기반 캠프 안내',
+  footerNote: '2026 네바다 AI STEM 글로벌 캠프',
 } as const;

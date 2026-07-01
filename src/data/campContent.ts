@@ -5,8 +5,7 @@ const imageUrls = {
     'https://images.pexels.com/photos/6208709/pexels-photo-6208709.jpeg?cs=srgb&dl=pexels-cottonbro-6208709.jpg&fm=jpg',
   canyon:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg/1280px-Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg',
-  drone:
-    'https://images.pexels.com/photos/5734963/pexels-photo-5734963.jpeg?cs=srgb&dl=pexels-ramazannatass-5734963.jpg&fm=jpg',
+  drone: '/media/drone-hero.png',
   lecture:
     'https://images.pexels.com/photos/8197558/pexels-photo-8197558.jpeg?cs=srgb&dl=pexels-yankrukov-8197558.jpg&fm=jpg',
   professor:
@@ -15,6 +14,8 @@ const imageUrls = {
     'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?cs=srgb&dl=pexels-max-fischer-5212345.jpg&fm=jpg',
   coordinator:
     'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?cs=srgb&dl=pexels-fauxels-3184292.jpg&fm=jpg',
+  battlebots:
+    'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=900',
 } as const;
 
 export const programModules = [
@@ -24,7 +25,7 @@ export const programModules = [
     title: 'AI STEM 글로벌 윈터 캠프',
     description:
       'DRI 미국 사막연구소와 UNLV/UNR 네트워크에서 실전 연구와 AI 프로젝트를 경험합니다.',
-    imageUrl: heroImage,
+    imageUrl: '/media/hero-ai-stem-campus.png',
     href: '/program/overview',
     points: ['오프라인 7박 9일 집중 프로그램', '초5~중3 10명 한정', 'DRI 공식 수료증 제공'],
   },
@@ -63,7 +64,7 @@ export const programModules = [
     eyebrow: 'SPECIAL LECTURE',
     title: '교수님 특강',
     description:
-      '강민곤, 손영권, 박정원 교수진과 게스트 강사가 STEM 진로와 AI 트렌드를 다룹니다.',
+      '교수진과 게스트 강사가 STEM 진로와 AI 트렌드를 다룹니다.',
     imageUrl: imageUrls.lecture,
     href: '/program/professor-lecture',
     points: ['AI/ML 특강', 'STEM 진로 특강', '실리콘밸리 AI와 항공우주 게스트 세션'],
@@ -78,7 +79,7 @@ export const detailPages = [
     title: '참가비 세부사항',
     description:
       '$4,800 / ₩7,200,000 기준이며 항공권은 별도 구매입니다. 포함 내역과 할인 조건은 최종 안내서 기준으로 업데이트됩니다.',
-    imageUrl: heroImage,
+    imageUrl: '/media/tuition-stem-hero.png',
     href: '/program/tuition',
     points: [
       'DRI STEM Lab 3일 집중 과정 포함',
@@ -103,13 +104,135 @@ export const missionContent = {
   ],
 } as const;
 
+export const homeCoreValues = [
+  {
+    number: '①',
+    title: '현직 과학자 1:1 멘토링',
+    description:
+      'DRI 박사진과 UNLV 이공계 멘토 5명이 7박 9일 내내 학생 10명과 직접 함께합니다.',
+  },
+  {
+    number: '②',
+    title: 'DRI 공식 수료증',
+    description:
+      '미국 연구기관 공식 인증 수료증을 진학 포트폴리오 자료로 활용할 수 있습니다.',
+  },
+  {
+    number: '③',
+    title: '1:1 진로 로드맵',
+    description:
+      '귀국 후 2주 내 개별 포트폴리오 피드백과 진로 상담 연 2회 제공.',
+  },
+] as const;
+
+export const activityHighlights = [
+  {
+    id: 'dri-stem-lab-highlight',
+    eyebrow: 'DRI STEM Lab',
+    title: '3일 집중 실험 과정',
+    description:
+      '전기회로, Micro:bit, 사막 생태, 현미경, AI 데이터 분석까지 실제 연구실 흐름으로 경험합니다.',
+    imageUrl: imageUrls.lab,
+    href: '/program/dri-stem-lab',
+    points: ['전기회로', 'Micro:bit', 'AI 데이터 분석'],
+  },
+  {
+    id: 'hoover-grand-canyon-highlight',
+    eyebrow: 'DAY 5',
+    title: '후버댐 + 그랜드캐년 종일 견학',
+    description:
+      '댐 공학·수력발전과 자연·지질 학습을 하루 안에 연결하는 현장 수업입니다.',
+    imageUrl: imageUrls.canyon,
+    href: '/program/hoover-grand-canyon',
+    points: ['댐 공학', '수력발전', '자연·지질 학습'],
+  },
+  {
+    id: 'drone-ai-highlight',
+    eyebrow: 'DAY 6',
+    title: 'Advanced Drone & AI Workshop',
+    description: 'UAV 자율비행과 AI 알고리즘을 직접 다루는 고급 워크숍입니다.',
+    imageUrl: imageUrls.drone,
+    href: '/program/drone-ai-workshop',
+    points: ['UAV 자율비행', 'AI 알고리즘', '팀별 실습'],
+  },
+  {
+    id: 'lecture-highlight',
+    eyebrow: 'Special Lecture',
+    title: '교수진 3인 + 게스트 강사 2인 특강',
+    description: '교수진과 실리콘밸리 AI, 항공우주 특강을 만납니다.',
+    imageUrl: imageUrls.lecture,
+    href: '/program/professor-lecture',
+    points: ['AI/ML', 'STEM 진로', '게스트 특강'],
+  },
+  {
+    id: 'battlebots-highlight',
+    eyebrow: 'DAY 7',
+    title: 'BattleBots Destruct-A-Thon 현장 관람',
+    description: '로봇 공학, 설계, 전략이 실제 경기에서 작동하는 장면을 관람합니다.',
+    imageUrl: imageUrls.battlebots,
+    href: '/program/schedule',
+    points: ['로봇 공학', '설계 전략', '현장 관람'],
+  },
+  {
+    id: 'mentoring-highlight',
+    eyebrow: 'Mentoring',
+    title: '1:1 수준 밀착 관리',
+    description:
+      '학생 10명 : 멘토 5명, 운영진 9명 동행으로 성인 대 학생 약 1:1 케어를 제공합니다.',
+    imageUrl: imageUrls.mentor,
+    href: '/team',
+    points: ['2:1 멘토 비율', '운영진 9명 동행', '안전 관리'],
+  },
+] as const;
+
+export const noticeItems = [
+  {
+    label: '모집',
+    title: '2027 Winter Camp 정원 10명 선착순 접수',
+    description: '소수정예 운영을 위해 정원 마감 후 대기자 명단으로 전환됩니다.',
+  },
+  {
+    label: '일정',
+    title: '1월 11일 출국, 1월 19일 인천 도착',
+    description: '항공편 확정 후 보호자에게 세부 체크인 안내를 개별 전달합니다.',
+  },
+  {
+    label: '준비',
+    title: '여권, ESTA, 여행자보험 확인 안내',
+    description: '출국 전 필수 서류와 준비물 체크리스트는 등록 확정 후 발송됩니다.',
+  },
+] as const;
+
+export const galleryItems = [
+  {
+    title: 'DRI STEM Lab',
+    description: '연구소 실험과 데이터 분석 중심 실습',
+    imageUrl: imageUrls.lab,
+  },
+  {
+    title: 'Drone & AI Workshop',
+    description: 'UAV 자율비행과 AI 알고리즘 워크숍',
+    imageUrl: imageUrls.drone,
+  },
+  {
+    title: 'Hoover Dam + Grand Canyon',
+    description: '공학과 지질을 연결하는 현장 견학',
+    imageUrl: imageUrls.canyon,
+  },
+  {
+    title: 'Mentoring',
+    description: '소수정예 학생을 위한 밀착 멘토링',
+    imageUrl: imageUrls.mentor,
+  },
+] as const;
+
 export const leadershipGroups = [
   {
     title: '대표 교수',
     members: [
       {
-        name: '손영권 박사',
-        role: 'UNR Associate Research Professor',
+        name: '한정훈 대표',
+        role: 'K-Nevada-Stem Camp 대표',
         imageUrl: imageUrls.professor,
         bio: '현지 총괄 및 안전 책임자로 DRI STEM Lab 전 과정을 이끌고 학생 연구 활동을 밀착 지원합니다.',
         quote: '학생이 직접 질문하고 실험하는 순간, 진짜 진로 탐색이 시작됩니다.',
@@ -161,11 +284,13 @@ export const journeyDays = [
     day: 'DAY 1',
     date: '1/11(월)',
     title: '도착 · 오리엔테이션',
-    summary: '인천에서 LAS 도착 후 UNLV 기숙사 체크인과 팀 배정을 진행합니다.',
+    summary: '인천에서 한국 인솔팀과 함께 출국하여 UNLV 기숙사 체크인과 팀 배정을 진행합니다.',
     details: [
+      '한국 인솔팀과 함께 인천공항 집결',
       '인천공항 출발 및 라스베가스 도착',
       'UNLV 기숙사 체크인과 생활 안전 안내',
       '프로그램 오리엔테이션, 팀 배정, 캡스톤 프로젝트 개요 설명',
+      '사진 추가 예정'
     ],
   },
   {
@@ -177,6 +302,7 @@ export const journeyDays = [
       'DRI STEM Lab 입소',
       '전기회로 기초와 브레드보드 실습',
       'LED 회로 제작, 멀티미터 측정, 팀별 실험 기록',
+
     ],
   },
   {
@@ -220,7 +346,7 @@ export const journeyDays = [
     details: [
       'UAV 자율비행과 AI 알고리즘 워크숍',
       '강민곤 교수 AI/ML 특강',
-      '손영권 박사, 박정원 교수, 게스트 강사 특강',
+      '교수진 및 게스트 강사 특강',
     ],
   },
   {
@@ -253,28 +379,24 @@ export const journeyDays = [
 export const campContent = {
   title: '2027 네바다 AI STEM 글로벌 윈터 캠프',
   heroImage,
-  heroKicker: '미국 네바다',
+  heroKicker: '미국 네바다에서 만나는',
   heroTitleLine1: 'AI STEM',
-  heroTitleLine2: '글로벌 윈터 캠프',
-  heroCopy: 'DRI 미국 사막연구소와 UNLV/UNR 네트워크에서 실전 연구와 AI 프로젝트를 경험합니다.',
+  heroTitleLine2: '글로벌 캠프',
+  heroCopy:
+    '네바다 주립대학 UNR · UNLV · 네바다 주립연구소 DRI와 함께 진짜 과학자처럼 연구하고, 드론을 날리고, AI를 만듭니다.',
   applicationNotice:
     '정원 10명. 접수 순서대로 마감됩니다. 마감 후 대기자 명단으로 전환됩니다.',
   period: {
     label: '캠프 기간',
     date: '2027년 1월 11일(월) ~ 1월 19일(화)',
-    note: '7박 9일 · 미국 네바다 라스베가스 · DRI × UNLV / UNR',
+    note: '7박 9일 · 미국 네바다 라스베가스 현지에서 진행 ',
   },
   quickFacts: [
-    { label: '대상', value: '초5~중3', note: '만 11~16세' },
-    { label: '정원', value: '10명', note: '오프라인 한정' },
-    { label: '참가비', value: '$4,800', note: '₩7,200,000 · 항공권 별도' },
+    { label: '과정', value: '7일', note: '집중 과정' },
+    { label: '정원', value: '10명', note: '소수정예' },
+    { label: '멘토', value: '1:1', note: '밀착 관리' },
   ],
-  activities: [
-    programModules[1],
-    programModules[2],
-    programModules[3],
-    programModules[4],
-  ],
+  activities: activityHighlights,
   schedule: [
     { day: 'DAY 1', title: '도착 · OT', detail: 'LAS 도착, UNLV 기숙사 체크인, 팀 배정' },
     { day: 'DAY 2', title: '전기회로', detail: 'LED 회로, 브레드보드, 멀티미터 실습' },

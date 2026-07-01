@@ -76,7 +76,14 @@ export function NoticesPage() {
                 <time>{notice.date}</time>
               </summary>
               <div className="board-row-detail">
-                <p>{notice.description}</p>
+                <article className="board-detail-card">
+                  <header>
+                    <span>{notice.label || '공지'}</span>
+                    <strong>{notice.title}</strong>
+                    <time>{notice.date}</time>
+                  </header>
+                  <p>{notice.description}</p>
+                </article>
               </div>
             </details>
           ))

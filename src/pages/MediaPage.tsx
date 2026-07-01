@@ -18,58 +18,28 @@ const officialMediaReferences = [
     imageUrl: 'https://www.dri.edu/wp-content/uploads/Intro-to-Aviation-STEM.jpg',
   },
   {
-    title: 'DRI Robotics & STEM',
-    description: '로봇, 드론, STEM 실습 자료 참고',
-    href: 'https://www.dri.edu/stem-education-program/',
-    imageUrl: 'https://www.dri.edu/wp-content/uploads/NVRoboticsHappenings1230x628-Web.jpg',
-  },
-  {
     title: 'BattleBots Destruct-A-Thon',
     description: '로봇 공학과 설계 전략을 현장에서 보는 라스베가스 프로그램',
     href: 'https://battlebots.com/tickets/',
-    imageUrl: 'https://images.pexels.com/photos/8566473/pexels-photo-8566473.jpeg?auto=compress&cs=tinysrgb&w=900',
-  },
-  {
-    title: 'Grand Canyon National Park',
-    description: '그랜드캐년 자연 지질과 필드러닝 참고',
-    href: 'https://www.nps.gov/grca/',
-    imageUrl: 'https://www.nps.gov/common/uploads/grid_builder/grca/crop16_9/6407EF55-1DD8-B71B-0B01519F6E2B6D08.jpg',
+    imageUrl: '/media/battlebots-destruct.png',
   },
   {
     title: 'Grand Canyon Field Learning',
     description: '네바다·애리조나 자연 지형 관찰 자료',
     href: 'https://www.nps.gov/grca/',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg/1280px-Grand_Canyon_%28Arizona%2C_USA%29%2C_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg',
-  },
-  {
-    title: 'Hoover Dam',
-    description: '댐 공학, 수력발전, 현장 견학 참고',
-    href: 'https://www.usbr.gov/lc/hooverdam/',
-    imageUrl: 'https://www.usbr.gov/lc/hooverdam/images/hoover-dam-aerial.jpg',
+    imageUrl: '/media/grand-canyon-field.png',
   },
   {
     title: 'Hoover Dam Engineering',
     description: '구조물과 에너지 시스템을 연결하는 STEM 필드러닝',
     href: 'https://www.usbr.gov/lc/hooverdam/',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Hoover_Dam_from_air_2012.jpg/1280px-Hoover_Dam_from_air_2012.jpg',
+    imageUrl: '/media/hoover-dam-field.png',
   },
   {
     title: 'SEDS UNLV',
     description: 'UNLV 항공우주·공학 학생 활동 참고',
     href: 'https://sedsunlv.org/',
     imageUrl: 'https://images.pexels.com/photos/586063/pexels-photo-586063.jpeg?auto=compress&cs=tinysrgb&w=900',
-  },
-  {
-    title: 'Drone & AI Workshop',
-    description: 'UAV 자율비행과 AI 알고리즘 실습 이미지',
-    href: 'https://sedsunlv.org/',
-    imageUrl: 'https://images.pexels.com/photos/5734963/pexels-photo-5734963.jpeg?cs=srgb&dl=pexels-ramazannatass-5734963.jpg&fm=jpg',
-  },
-  {
-    title: 'STEM Mentoring',
-    description: '소수정예 멘토링과 팀 프로젝트 분위기',
-    href: 'https://www.dri.edu/stem-education-program/',
-    imageUrl: 'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?cs=srgb&dl=pexels-max-fischer-5212345.jpg&fm=jpg',
   },
 ];
 
@@ -135,7 +105,7 @@ export function MediaPage() {
         <div className="section-title">
           <p className="eyebrow">Official References</p>
           <h2>공식 참고 자료</h2>
-          <p>DRI STEM Program, BattleBots, Grand Canyon, Hoover Dam, SEDS UNLV 자료를 참고한 이미지 카드입니다.</p>
+          <p>DRI STEM Program, BattleBots, Grand Canyon, Hoover Dam, SEDS UNLV 자료를 한 항목씩 정리했습니다.</p>
         </div>
         <div className="gallery-list gallery-board-grid">
           {officialMediaReferences.map((item) => (
